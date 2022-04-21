@@ -3,8 +3,8 @@ import { Rnd } from 'react-rnd';
 import blocksMap from '../blocks/blocksMap';
 import Dropdown from '../components/dropdown/dropdown';
 import { getBlocks, updateBlocks } from '../helpers/storage';
-import * as Blocks from '../blocks/index.js';
 
+console.log(blocksMap)
 
 function NewTab() {
 
@@ -13,8 +13,7 @@ function NewTab() {
 
   useEffect(() => {
     //Run on page load to get user's blocks
-    let blocks = getBlocks();
-    setBlocks(blocks);
+    setBlocks(getBlocks());
   }, [])
 
   function updateBlockSize(e, direction, ref, delta, position) {
@@ -22,8 +21,8 @@ function NewTab() {
       if (block.id === this.id) {
         //Found the block that was resized in storage!
 
-        block.width = ref.style.width;
-        block.height = ref.style.height;
+        block.dragProps.width = ref.style.width;
+        block.dragProps.height = ref.style.height;
       }
       return block;
     }));
@@ -37,8 +36,8 @@ function NewTab() {
       if (block.id === this.id) {
         //Found the block that was resized in storage!
 
-        block.x = d.x;
-        block.y = d.y;
+        block.dragProps.x = d.x;
+        block.dragProps.y = d.y;
       }
       return block;
     }));
@@ -47,28 +46,39 @@ function NewTab() {
     updateBlocks(userBlocks);
   }
 
+  function createNewBlock(kind) {
+    let block = {
+      kind: kind,
+      dragProps: {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        ...blocksMap[kind].defaultSizes
+      },
+      blockProps: blocksMap[kind].defaultProps,
+      id: Date.now()
+    }
+    setBlocks([...userBlocks, block]);
+
+    //Update new blocks in storage
+    updateBlocks(userBlocks);
+  }
+
   return (
     <div>
       {userBlocks.map(block => {
-        let BlockContent;
-        if (editing) {
-          BlockContent = lazy(() => import(`../blocks/${block.kind}`));
-        }
-
-
         return (editing ?
           <Rnd className='block'
-            size={{ width: block.width, height: block.height }}
-            position={{ x: block.x, y: block.y }}
+            size={{ width: block.dragProps.width, height: block.dragProps.height }}
+            position={{ x: block.dragProps.x, y: block.dragProps.y }}
             key={block.id}
             id={block.id}
             onResizeStop={updateBlockSize}
             onDragStop={updateBlockPosition}
             lockAspectRatio>
 
-            {<Suspense fallback={<div>Loading...</div>}>
-              <BlockContent />
-            </Suspense>}
+            {
+              React.createElement(blocksMap[block.kind].block)
+            }
           </Rnd> :
           <div className='block'>
 
@@ -78,7 +88,10 @@ function NewTab() {
       <div id="addContainer">
         <Dropdown items={
           [
-            { text: "Time Block" },
+            {
+              text: "Time Block",
+              onClick: () => { createNewBlock("timeBlock") }
+            },
             { text: "OK" }
           ]
         } >

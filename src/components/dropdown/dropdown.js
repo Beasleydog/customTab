@@ -7,7 +7,9 @@ export default function Dropdown(props) {
             {open && (
                 <div id="dropdownItems">
                     {props.items.map((item) => {
-                        return (<div className='item'><span>{item.text}</span></div>)
+                        return (<div className='item' onClick={item.onClick}>
+                            <span>{item.text}</span>
+                        </div>)
                     })}
                 </div>)}
             <div style={{ float: "right" }} onClick={() => {
