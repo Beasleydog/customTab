@@ -1,18 +1,62 @@
 #addBlockButton{
-    box-shadow: rgb(184, 179, 179) 0px 0px 5px;
+    box-shadow: rgb(191, 186, 186) 0px 2px 4px;
     border-radius:50%;
     width:50px;
     height:50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border:rgb(237, 230, 230) solid 1px;
+    background:white;
+    cursor: pointer;
+
+    transition:transform .1s, box-shadow .1s;
+
+    animation:introFade .2s linear;
 }
+#addBlockButton:active{
+    box-shadow: rgb(191, 186, 186) 0px 0px 2px;
+    transform:translateY(2px)
+}
+
+@keyframes introFade{
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
 #addContainer{
     position: absolute;
     right:10px;
     bottom:10px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap:10px;
 }
 .block{
-        padding: 5px;
-        overflow: hidden;
+        overflow: visible;
         border-radius: 5px;
         box-sizing: border-box;
-        box-shadow: gray 0px 0px 5px;
+        transition:box-shadow .2s;
+}
+.block--editing{
+    box-shadow: rgb(182, 179, 179) 0px 0px 2px;
+}
+.block--focused{
+    box-shadow: black 0px 0px 0px 2px;
+}
+
+
+.resizeBox{
+    width: 15px;
+    height: 15px;
+    border: black solid;
+    background: white;
+    border-radius: 5px;
+    animation:introFade .2s linear;
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
+*{
+    font-family: 'Inter',sans-serif;
 }
