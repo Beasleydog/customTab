@@ -1,0 +1,32 @@
+#blockContainer{
+    width: 100%;
+     height: 100%;
+     position:relative;
+}
+#blockButtonContainer{
+    position:absolute;
+    top:5px;
+    right:15px;
+
+    display:flex;
+    flex-direction: row;
+    gap:6px;
+}
+.blockButton{
+    width: 25px;
+    height:25px;
+    background:white;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor:pointer;
+
+    transition:box-shadow .1s;
+}
+.blockButton:hover{
+    box-shadow:rgb(193, 186, 186) 0px 0px 2px;
+}
