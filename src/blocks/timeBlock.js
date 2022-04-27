@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveText, ResponsiveTextContainer } from '../components/responsiveText/responsiveTextSize';
+import useInterval from '../helpers/functions/useInterval';
 
 export default function TimeBlock(props) {
     const [time, setTime] = useState(currentTime());
@@ -10,17 +11,19 @@ export default function TimeBlock(props) {
         let seconds = dateObject.getSeconds() > 10 ? dateObject.getSeconds() : "0" + dateObject.getSeconds();
         let amOrPm = dateObject.getHours() >= 12 ? 'pm' : 'am';
 
-        console.log("I SHOUOLD", props.showAmPm, props.setting)
-
         let time = `${hours}:${minutes}:${seconds} ${props.showAmPm ? amOrPm : ""}`;
         return time;
     }
 
     useEffect(() => {
-        setInterval(() => {
-            setTime(currentTime())
-        }, 1000);
-    }, [])
+        //Force instant update if props have changed
+        setTime(currentTime());
+    }, [props]);
+
+    useInterval(() => {
+        setTime(currentTime());
+    }, 1000);
+
     return (
         <ResponsiveTextContainer>
             <div style={{

@@ -9,7 +9,7 @@ function BlockContainer(props) {
             {props.children}
             {props.focusedAndEditing && <div id="blockButtonContainer">
                 <div className="blockButton" onClick={() => {
-                    openPopup(<BlockSettings id={props.id} />, { type: "test", timeout: 1000 })
+                    openPopup(<BlockSettings id={props.id} />)
                 }}>
                     <img draggable="false" style={{ width: "13px" }} src="/assets/gear.svg" alt="Settings" />
                 </div>

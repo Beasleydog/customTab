@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getBlockById } from '../../helpers/functions/storage';
-import { getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting } from '../../helpers/functions/blockFunctions';
+import { getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName } from '../../helpers/functions/blockFunctions';
 import pxToInt from '../../helpers/functions/pxToInt';
 import "./blockSettings.css"
 
@@ -15,7 +15,6 @@ function BlockSettings(props) {
         setDisplayBlockWidth(ref.current.offsetWidth)
     }, [ref]);
 
-    console.log(block);
     return (
         <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
             <div id="settingsHeader">
@@ -30,10 +29,11 @@ function BlockSettings(props) {
                             case Boolean:
                                 //A checkbox if its a boolean value
                                 return (
-                                    <div key={i} className="booleanInput">
-                                        <label >{setting}</label>
+                                    <div key={i} className="booleanInput settingContainer">
+                                        <label >{getSettingHumanName(block.kind, setting)}</label>
                                         <input onChange={(e) => {
-                                            setBlock(updateBlockSetting(block.id, setting, e.target.checked))
+                                            let updatedBlock = updateBlockSetting(block.id, setting, e.target.checked);
+                                            setBlock(updatedBlock);
                                         }} type="checkbox" checked={block.blockProps[setting]} />
 
                                     </div>
@@ -47,7 +47,7 @@ function BlockSettings(props) {
                     <div ref={ref} id="blockDisplay" style={{
                         height: `${displayBlockWidth / pxToInt(block.dragProps.width) * pxToInt(block.dragProps.height)}px`
                     }}>
-                        {blockKindToComponent(block.kind, { setting: true, ...block.blockProps })}
+                        {blockKindToComponent(block.kind, { setting: true, second: (new Date()).getSeconds(), ...block.blockProps })}
                     </div>
                 </div>
             </div>

@@ -12,6 +12,9 @@
     flex-grow: 1;
     padding-bottom: 20px;
 }
+#settings{
+    padding:15px 0px;
+}
 .section{
     height:100%;
     flex-grow: 1;
@@ -30,4 +33,17 @@
     width:100%;
     box-shadow: 0px 0px 5px #d0d0d0;
     border-radius: 5px;
+}
+.booleanInput{
+    font-size:25px;
+}
+input[type=checkbox]{
+    width:20px;
+    height:20px;
+}
+.settingContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
 }

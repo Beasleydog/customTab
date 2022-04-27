@@ -7,7 +7,8 @@ const blocksMap = {
         defaultProps: {
             showAmPm: {
                 default: true,
-                type: Boolean
+                type: Boolean,
+                humanName: "Show AM/PM"
             }
         },
         humanName: "Time Block"

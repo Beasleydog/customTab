@@ -9,6 +9,10 @@ function getSettingValueType(blockName, setting) {
     return blocksMap[blockName].defaultProps[setting].type;
 }
 
+function getSettingHumanName(blockName, setting) {
+    return blocksMap[blockName].defaultProps[setting].humanName;
+}
+
 function blockKindToComponent(kind, props) {
     return React.createElement(blocksMap[kind].block, { ...props })
 }
@@ -27,4 +31,4 @@ function updateBlockSetting(id, setting, newValue) {
     return changedBlock;
 }
 
-export { getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting };
+export { getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName };

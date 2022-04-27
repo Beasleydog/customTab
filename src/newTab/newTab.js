@@ -6,6 +6,8 @@ import { getBlocks, updateBlocks } from '../helpers/functions/storage';
 import openPopup from '../helpers/functions/openPopup';
 import { BlockContainer } from '../components/blockContainer/blockContainer';
 import { blockKindToComponent } from '../helpers/functions/blockFunctions';
+import useInterval from '../helpers/functions/useInterval';
+import { BackgroundSettings } from '../components/backgroundSettings/backgroundSettings';
 console.log(blocksMap)
 
 function NewTab() {
@@ -16,7 +18,14 @@ function NewTab() {
   useEffect(() => {
     //Run on page load to get user's blocks
     setBlocks(getBlocks());
-  }, [])
+  }, []);
+
+  useInterval(() => {
+    //Check for updates from other tabs or settings, etc
+    if (getBlocks() !== userBlocks) {
+      setBlocks(getBlocks());
+    }
+  }, 1000);
 
   function updateBlockSize(e, direction, ref, delta, position) {
     setBlocks(userBlocks.map((block) => {
@@ -63,10 +72,10 @@ function NewTab() {
       block.blockProps[key] = blocksMap[kind].defaultProps[key].default;
     });
 
-    setBlocks([...userBlocks, block]);
-
     //Update new blocks in storage
-    updateBlocks(userBlocks);
+    updateBlocks([...userBlocks, block]);
+
+    setBlocks([...userBlocks, block]);
   }
 
   function deleteBlock(id) {
@@ -148,12 +157,13 @@ function NewTab() {
       })}
 
       <div id="addContainer">
-        <button id="addBlockButton" onClick={() => {
-          openPopup("test", { type: "test", timeout: 1000 })
-        }}>Test</button>
         {/* If in editing mode, render the dropdown to add a new block */}
         {editing ? (
           <>
+            <button id="addBlockButton" onClick={() => { openPopup(<BackgroundSettings />) }}>
+              Theme
+            </button>
+
             <Dropdown items={
               [
                 {

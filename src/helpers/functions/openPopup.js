@@ -4,11 +4,11 @@ import { Popup } from '../../components/popup/popup';
 import Button from '../../components/button/button';
 
 const node = document.createElement("div");
-const popup = (message, { type, timeout }) => {
+const popup = (message) => {
     document.body.appendChild(node);
     const PopupContent = () => {
         return (
-            <Popup type={type} open={true} timeout={timeout} close={() => {
+            <Popup open={true} close={() => {
                 ReactDOM.unmountComponentAtNode(node);
                 node.remove();
             }}>
