@@ -8,7 +8,6 @@ import { BlockContainer } from '../components/blockContainer/blockContainer';
 import { blockKindToComponent } from '../helpers/functions/blockFunctions';
 import useInterval from '../helpers/functions/useInterval';
 import { BackgroundSettings } from '../components/backgroundSettings/backgroundSettings';
-console.log(blocksMap)
 
 function NewTab() {
 
@@ -22,7 +21,7 @@ function NewTab() {
 
   useInterval(() => {
     //Check for updates from other tabs or settings, etc
-    if (getBlocks() !== userBlocks) {
+    if (JSON.stringify(getBlocks()) !== JSON.stringify(userBlocks)) {
       setBlocks(getBlocks());
     }
   }, 1000);
@@ -82,12 +81,14 @@ function NewTab() {
     //Selected block was deleted, make sure to remove selected
     setActiveBlock(null, id);
 
-    setBlocks(userBlocks.filter((block) => {
+    let newList = userBlocks.filter((block) => {
       return block.id !== id;
-    }));
+    });
 
     //Update new blocks in storage
-    updateBlocks(userBlocks);
+    updateBlocks(newList);
+
+    setBlocks(newList);
   }
 
   const [interactingWithBlock, setInteractState] = useState(false);
