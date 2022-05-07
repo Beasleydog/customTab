@@ -2,22 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
 import blocksMap from '../blocks/blocksMap';
 import Dropdown from '../components/dropdown/dropdown';
-import { getBlocks, updateBlocks } from '../helpers/functions/storage';
+import { getBlocks, updateBlocks, getBackground } from '../helpers/functions/storage';
 import openPopup from '../helpers/functions/openPopup';
 import { BlockContainer } from '../components/blockContainer/blockContainer';
 import { blockKindToComponent } from '../helpers/functions/blockFunctions';
 import useInterval from '../helpers/functions/useInterval';
 import { BackgroundSettings } from '../components/backgroundSettings/backgroundSettings';
-
+import updateToLatestSettings from '../helpers/functions/updateSettings';
+import Background from '../components/background/background';
+import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFunctions';
 function NewTab() {
 
-  const [userBlocks, setBlocks] = useState([]);
-  const [editing, setEditing] = useState(true);
+  const [userBlocks, setBlocks] = useState(getBlocks());
+  const [background, setBackground] = useState(getBackground());
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     //Run on page load to get user's blocks
     setBlocks(getBlocks());
+
+
+    //Ensure the background is set to atleast the default values
+    if (!background) {
+      //Background has never been set before
+      setDefaultBackgroundSettings();
+    }
   }, []);
+
+  useEffect(() => {
+    //Update all blocks to make sure they have their newest version of settings
+    let newBlocks = userBlocks;
+    console.log(newBlocks);
+    newBlocks = newBlocks.map((block) => {
+      block.blockProps = updateToLatestSettings(block.kind, block.blockProps);
+      return block;
+    });
+    setBlocks(newBlocks);
+    updateBlocks(newBlocks);
+  }, [])
 
   useInterval(() => {
     //Check for updates from other tabs or settings, etc
@@ -67,8 +89,8 @@ function NewTab() {
       blockProps: {},
       id: Date.now()
     }
-    Object.keys(blocksMap[kind].defaultProps).forEach((key) => {
-      block.blockProps[key] = blocksMap[kind].defaultProps[key].default;
+    Object.keys(blocksMap[kind].settings.blockSettings).forEach((key) => {
+      block.blockProps[key] = blocksMap[kind].settings.blockSettings[key].default;
     });
 
     //Update new blocks in storage
@@ -119,7 +141,7 @@ function NewTab() {
     <div>
       {userBlocks.map(block => {
         return (
-          <div onMouseOver={() => { setActiveBlock(block.id) }} onMouseLeave={() => { setActiveBlock(null, block.id) }}>
+          <span className="" onMouseOver={() => { setActiveBlock(block.id) }} onMouseLeave={() => { setActiveBlock(null, block.id) }}>
             <Rnd
               className={`block ${editing && "block--editing"} ${activeBlock === block.id && "block--focused"}`}
               bounds="window"
@@ -153,7 +175,7 @@ function NewTab() {
                 }
               </BlockContainer>
             </Rnd>
-          </div>
+          </span>
         )
       })}
 
@@ -161,7 +183,7 @@ function NewTab() {
         {/* If in editing mode, render the dropdown to add a new block */}
         {editing ? (
           <>
-            <button id="addBlockButton" onClick={() => { openPopup(<BackgroundSettings />) }}>
+            <button id="addBlockButton" onClick={() => { openPopup(<BackgroundSettings />, { width: "40%" }) }}>
               Theme
             </button>
 
@@ -192,6 +214,8 @@ function NewTab() {
         }
 
       </div>
+
+      <Background />
     </div >
   );
 }

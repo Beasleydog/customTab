@@ -1,9 +1,9 @@
 #settingsHeader{
     width:100%;
-    font-size: 35px;
+    font-size: 45px;
     text-align: center;
-    padding:10px 0px;
-    border-bottom: black solid;
+    padding:10px 0px 5px 0px;
+    border-bottom: #fcf2f2 solid;
 }
 #settingsContent{
     width: 100%;
@@ -11,6 +11,8 @@
     flex-direction: row;
     flex-grow: 1;
     padding-bottom: 20px;
+    overflow:hidden;
+    justify-content: center;
 }
 #settings{
     padding:15px 0px;
@@ -28,4 +30,41 @@
 
     display:flex;
     align-items: center;
+}
+.settingsGroupName{
+    font-size:25px;
+    text-align: center;
+    border-bottom: black solid 2px;
+    /* margin:0px 15px; */
+}
+.settingsGroupContainer{
+    padding: 0px 20px;
+}
+.booleanInput{
+    font-size:20px;
+}
+.dropdownInput{
+    font-size:20px;
+}
+input[type=checkbox]{
+    width:18px;
+    height:18px;
+}
+.settingContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px;
+}
+.settingsContainer{
+    padding:10px 0px;
+    display:flex;
+    flex-direction: column;
+    gap:50px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y:auto;
+}
+.groupContent{
+    padding:5px 0px;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getBlockById } from '../../helpers/functions/storage';
-import { getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName } from '../../helpers/functions/blockFunctions';
+import { getSettingGroups, getSettingGroup, getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName, getSettingOptions } from '../../helpers/functions/blockFunctions';
 import pxToInt from '../../helpers/functions/pxToInt';
 import SettingsTemplate from '../settingsTemplate/settingsTemplate';
 import "./blockSettings.css"
@@ -15,7 +15,7 @@ function BlockSettings(props) {
         //Set width to width of parent element
         setDisplayBlockWidth(ref.current.offsetWidth)
     }, [ref]);
-
+    console.log(block, getSettingGroups(block.kind));
     return (
         <SettingsTemplate header={`${getBlockHumanName(block.kind)} Settings`}
 
@@ -25,10 +25,12 @@ function BlockSettings(props) {
                     setting: setting,
                     value: block.blockProps[setting],
                     valueType: getSettingValueType(block.kind, setting),
-                    humanName: getSettingHumanName(block.kind, setting)
+                    humanName: getSettingHumanName(block.kind, setting),
+                    values: getSettingOptions(block.kind, setting),
+                    group: getSettingGroup(block.kind, setting)
                 }
             })}
-
+            groups={getSettingGroups(block.kind)}
             settingChanged={(setting, value) => {
                 let updatedBlock = updateBlockSetting(block.id, setting, value);
                 setBlock(updatedBlock);

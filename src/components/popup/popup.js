@@ -3,8 +3,8 @@ import "./popup.css"
 import Button from '../button/button';
 export function Popup(props) {
     return (
-        <div id="popupBack">
-            <div id="popupBody">
+        <div id="popupBack" >
+            <div id="popupBody" style={{ ...(props.style && props.style) }}>
                 <div id="popupContent">
                     {props.children}
                 </div>
@@ -14,6 +14,6 @@ export function Popup(props) {
                     </Button>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

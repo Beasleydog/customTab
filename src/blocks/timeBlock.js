@@ -7,7 +7,7 @@ export default function TimeBlock(props) {
     function currentTime() {
         let dateObject = new Date();
         let hours = dateObject.getHours() % 12 || 12
-        let minutes = dateObject.getMinutes();
+        let minutes = dateObject.getMinutes() > 10 ? dateObject.getMinutes() : "0" + dateObject.getMinutes();
         let seconds = dateObject.getSeconds() > 10 ? dateObject.getSeconds() : "0" + dateObject.getSeconds();
         let amOrPm = dateObject.getHours() >= 12 ? 'pm' : 'am';
 
