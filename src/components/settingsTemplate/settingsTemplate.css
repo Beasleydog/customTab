@@ -1,18 +1,72 @@
-#settingsHeader{
-    width:100%;
-    font-size: 45px;
+.pageHeader{
+    font-size:23px;
+    padding-bottom:10px;
+     border-bottom: #d0d0d02e solid;
+}
+.sectionsContainer{
+    margin-top:20px;
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+}
+.sectionSettings{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.sectionHeader{
+    font-size:21px;
+}
+#settingsSideBar{
+    width:30%;
     text-align: center;
-    padding:10px 0px 5px 0px;
-    border-bottom: #fcf2f2 solid;
+    border-right: #d0d0d02e solid;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    padding:0px 5px;
+}
+#settingsBarHeader{
+    font-size:20px;
+    padding:5px 0px 10px 0px;
 }
 #settingsContent{
     width: 100%;
     display: flex;
     flex-direction: row;
     flex-grow: 1;
-    padding-bottom: 20px;
     overflow:hidden;
     justify-content: center;
+}
+#settingGroups{
+    display:flex;
+    flex-direction: column;
+    gap:6px;
+    margin-right: 10px;
+}
+.groupButton{
+    padding:5px 5px;
+    font-weight:500;
+    font-size:15px;
+
+    display: flex;
+    align-items: center;
+    gap:6px;
+
+border-radius:5px;
+
+    transition:background .1s;
+}
+.groupButton:hover{
+    background:rgba(0,0,0,3%);
+}
+.groupButton-selected{
+    background:rgba(0,0,0,6%) !important;
+}
+.groupIcon{
+    width: 18px;
 }
 #settings{
     padding:15px 0px;
@@ -22,7 +76,7 @@
     flex-grow: 1;
 }
 #blockViewer{
-    border-left: black solid;
+    border-left: #d0d0d00b solid;
     width: 50%;
     flex-grow: 0;
     padding: 5%;
@@ -30,41 +84,38 @@
 
     display:flex;
     align-items: center;
+box-shadow: inset white 0px 0px 18px 8px;
+   
+background-color: #f5f5f60f;
+background-image: url("data:image/svg+xml,%3Csvg width='70' height='70' viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23e5def0' fill-opacity='0.2' fill-rule='evenodd'%3E%3Cpath d='M0 0h35v35H0V0zm5 5h25v25H5V5zm5 5h15v15H10V10zm5 5h5v5h-5v-5zM40 5h25v25H40V5zm5 5h15v15H45V10zm5 5h5v5h-5v-5zM70 35H35v35h35V35zm-5 5H40v25h25V40zm-5 5H45v15h15V45zm-5 5h-5v5h5v-5zM30 40H5v25h25V40zm-5 5H10v15h15V45zm-5 5h-5v5h5v-5z'/%3E%3C/g%3E%3C/svg%3E");
 }
-.settingsGroupName{
-    font-size:25px;
-    text-align: center;
-    border-bottom: black solid 2px;
-    /* margin:0px 15px; */
-}
-.settingsGroupContainer{
-    padding: 0px 20px;
+#blockDisplay{
+    width:100%;
+    box-shadow: 0px 0px 5px #d0d0d0;
+    background:white;
+    border-radius: 5px;
 }
 .booleanInput{
-    font-size:20px;
 }
 .dropdownInput{
-    font-size:20px;
 }
-input[type=checkbox]{
-    width:18px;
-    height:18px;
-}
+
 .settingContainer{
+    gap:10px;
+    font-size:16px;
+}
+.horizontalSettingLayout{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap:10px;
+}
+.verticalSettingLayout{
+    display: flex;
+    flex-direction: column;
+    gap:4px;
+    /* align-items: center; */
+    /* justify-content: space-between; */
 }
 .settingsContainer{
-    padding:10px 0px;
-    display:flex;
-    flex-direction: column;
-    gap:50px;
-    height: 100%;
-    box-sizing: border-box;
-    overflow-y:auto;
-}
-.groupContent{
-    padding:5px 0px;
+    padding:10px;
 }

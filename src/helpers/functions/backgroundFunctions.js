@@ -1,11 +1,11 @@
 import { updateBackground } from "./storage";
-import settings from "../../background/defaultProps";
-
+import settingPages from "../../background/defaultProps";
+import { getAllSettings } from "./settingFunctions";
 export function setDefaultBackgroundSettings() {
     let background = {};
-    Object.keys(settings.blockSettings).forEach((key) => {
-        console.log(settings, key)
-        background[key] = settings.blockSettings[key].default;
+    let allSettings = getAllSettings(settingPages);
+    Object.keys(allSettings).forEach((key) => {
+        background[key] = allSettings[key].default;
     });
     console.log(background)
     updateBackground(background);

@@ -3,7 +3,8 @@ import { getBlockById } from '../../helpers/functions/storage';
 import { getSettingGroups, getSettingGroup, getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName, getSettingOptions } from '../../helpers/functions/blockFunctions';
 import pxToInt from '../../helpers/functions/pxToInt';
 import SettingsTemplate from '../settingsTemplate/settingsTemplate';
-import "./blockSettings.css"
+import { settingCleanRenderList } from '../../helpers/functions/settingFunctions';
+import blocksMap from '../../blocks/blocksMap';
 
 function BlockSettings(props) {
     const [block, setBlock] = useState(getBlockById(props.id));
@@ -15,22 +16,14 @@ function BlockSettings(props) {
         //Set width to width of parent element
         setDisplayBlockWidth(ref.current.offsetWidth)
     }, [ref]);
-    console.log(block, getSettingGroups(block.kind));
-    return (
-        <SettingsTemplate header={`${getBlockHumanName(block.kind)} Settings`}
+    console.log(block);
 
-            settings={Object.keys(block.blockProps).map((setting) => {
-                //Add more detail to the list of settings to they can be rendered
-                return {
-                    setting: setting,
-                    value: block.blockProps[setting],
-                    valueType: getSettingValueType(block.kind, setting),
-                    humanName: getSettingHumanName(block.kind, setting),
-                    values: getSettingOptions(block.kind, setting),
-                    group: getSettingGroup(block.kind, setting)
-                }
-            })}
-            groups={getSettingGroups(block.kind)}
+
+    return (
+        <SettingsTemplate header={`${getBlockHumanName(block.kind)}`}
+            pages={settingCleanRenderList(blocksMap[block.kind].settingPages, block.blockProps)}
+
+
             settingChanged={(setting, value) => {
                 let updatedBlock = updateBlockSetting(block.id, setting, value);
                 setBlock(updatedBlock);

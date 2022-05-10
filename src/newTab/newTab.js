@@ -10,6 +10,7 @@ import useInterval from '../helpers/functions/useInterval';
 import { BackgroundSettings } from '../components/backgroundSettings/backgroundSettings';
 import updateToLatestSettings from '../helpers/functions/updateSettings';
 import Background from '../components/background/background';
+import { getAllSettings } from '../helpers/functions/settingFunctions';
 import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFunctions';
 function NewTab() {
 
@@ -34,7 +35,7 @@ function NewTab() {
     let newBlocks = userBlocks;
     console.log(newBlocks);
     newBlocks = newBlocks.map((block) => {
-      block.blockProps = updateToLatestSettings(block.kind, block.blockProps);
+      block.blockProps = updateToLatestSettings(getAllSettings(blocksMap[block.kind].settingPages), block.blockProps);
       return block;
     });
     setBlocks(newBlocks);
@@ -89,8 +90,10 @@ function NewTab() {
       blockProps: {},
       id: Date.now()
     }
-    Object.keys(blocksMap[kind].settings.blockSettings).forEach((key) => {
-      block.blockProps[key] = blocksMap[kind].settings.blockSettings[key].default;
+
+    let allSettings = getAllSettings(blocksMap[kind].settingPages);
+    Object.keys(allSettings).forEach((key) => {
+      block.blockProps[key] = allSettings[key].default;
     });
 
     //Update new blocks in storage

@@ -1,16 +1,19 @@
 import React from 'react';
 import blocksMap from "../../blocks/blocksMap";
 import { getBlocks, updateBlocks, getBlockById, updateBlock } from './storage';
+import { getSettingDefaultInfo } from "./settingFunctions";
+
+
 function getBlockHumanName(blockName) {
     return blocksMap[blockName].humanName;
 }
 
 function getSettingValueType(blockName, setting) {
-    return blocksMap[blockName].settings.blockSettings[setting].type;
+    return getSettingDefaultInfo(blockName, setting).type;
 }
 
 function getSettingHumanName(blockName, setting) {
-    return blocksMap[blockName].settings.blockSettings[setting].humanName;
+    return getSettingDefaultInfo(blockName, setting).humanName;
 }
 
 function blockKindToComponent(kind, props) {
@@ -32,7 +35,7 @@ function updateBlockSetting(id, setting, newValue) {
 }
 
 function getSettingOptions(blockName, setting) {
-    return blocksMap[blockName].settings.blockSettings[setting].values;
+    return getSettingDefaultInfo(blockName, setting).values;
 }
 
 function validCheck(valueToCheck, obj) {
@@ -46,7 +49,7 @@ function validCheck(valueToCheck, obj) {
     }
 }
 function getSettingGroup(blockName, setting) {
-    return blocksMap[blockName].settings.blockSettings[setting].group;
+    return getSettingDefaultInfo(blockName, setting).group;
 }
 function getSettingGroups(blockName) {
     return blocksMap[blockName].settings.settingGroups;

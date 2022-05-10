@@ -1,9 +1,8 @@
 import { updateBlock, getBlockById } from './storage';
 import blocksMap from '../../blocks/blocksMap';
+import { getSettingDefaultInfo } from './settingFunctions';
 
-function updateToLatestSettings(blockKind, blockSettings) {
-
-    let correctSettings = getSettingsInfo(blockKind);
+function updateToLatestSettings(correctSettings, blockSettings) {
 
     //Add new settins
     Object.keys(correctSettings).forEach((setting) => {
@@ -30,12 +29,6 @@ function updateToLatestSettings(blockKind, blockSettings) {
     });
 
     return blockSettings
-}
-
-function getSettingsInfo(blockName) {
-    let block = blocksMap[blockName];
-
-    return block.settings.blockSettings;
 }
 
 export default updateToLatestSettings;

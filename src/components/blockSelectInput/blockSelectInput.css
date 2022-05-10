@@ -1,0 +1,47 @@
+.blockSelectContainer{
+    display:flex;
+    gap:10px;
+}
+.blockOption{
+flex: 1 1 0;
+height:50px;
+border:black solid 2px;
+border-radius: 5px;
+
+display:flex;
+
+align-items: center;
+justify-content: center;
+
+overflow: hidden;
+
+filter:grayscale(0.95);
+
+background-size: cover !important;
+
+color:white;
+
+transition:filter .1s;
+
+cursor:pointer;
+user-select: none;
+}
+.blockOption-selected{
+    filter: unset !important;
+}
+.blockOptionText{
+    text-shadow: black 0px 0px 2px;
+
+    transition: text-shadow .1s, color .1s, background .1s;
+}
+.blockOptionText-selected{
+text-shadow: unset;
+
+    background:rgba(255,255,255,90%);
+    backdrop-filter: blur(2px);
+    padding:2px;
+    border:black solid 2px;
+    border-radius:5px;
+
+    color:black;
+}

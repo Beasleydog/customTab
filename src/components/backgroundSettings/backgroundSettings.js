@@ -2,27 +2,15 @@ import React, { useState, useEffect } from 'react';
 import SettingsTemplate from '../settingsTemplate/settingsTemplate';
 import "./backgroundSettings.css";
 import { getBackground, updateBackground } from '../../helpers/functions/storage';
-import settings from '../../background/defaultProps';
-
+import settingPages from '../../background/defaultProps';
+import { settingCleanRenderList } from '../../helpers/functions/settingFunctions';
 function BackgroundSettings(props) {
     const [background, setBackground] = useState(getBackground());
     return (
         <>
             <SettingsTemplate
                 header={`Theme Settings`}
-                settings={Object.keys(background).map((setting) => {
-                    //Add more detail to the list of settings to they can be rendered
-                    return {
-                        setting: setting,
-                        value: background[setting],
-                        valueType: settings.blockSettings[setting].type,
-                        humanName: settings.blockSettings[setting].humanName,
-                        values: settings.blockSettings[setting].values,
-                        condition: settings.blockSettings[setting].displayConditional,
-                        group: settings.blockSettings[setting].group
-                    }
-                })}
-
+                pages={settingCleanRenderList(settingPages, background)}
                 settingChanged={(setting, value) => {
                     let updatedBackground = { ...background };
                     updatedBackground[setting] = value;
