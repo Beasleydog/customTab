@@ -1,5 +1,5 @@
 export function getBlocks() {
-    return JSON.parse(localStorage.getItem("blocks"));
+    return JSON.parse(localStorage.getItem("blocks") || "[]");
 }
 export function getBlockById(id) {
     let allBlocks = getBlocks();
@@ -25,4 +25,21 @@ export function getBackground() {
 }
 export function updateBackground(background) {
     localStorage.setItem("background", JSON.stringify(background));
+}
+export function setStoredValue(key, value) {
+    localStorage.setItem(key, value);
+}
+export function getStoredValue(key) {
+    try {
+        return JSON.parse(localStorage.getItem(key))
+    } catch {
+        return localStorage.getItem(key)
+    }
+}
+export function setStoredEditing(value) {
+    localStorage.setItem("editing", value);
+}
+export function getStoredEditing() {
+    //Parse to turn 'true' into true
+    return JSON.parse(localStorage.getItem("editing"));
 }

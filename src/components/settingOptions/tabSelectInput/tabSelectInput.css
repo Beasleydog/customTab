@@ -1,0 +1,49 @@
+.tabSelectContainer{
+    display:flex;
+    margin:5px 0px;
+}
+.tabSelectContainer>*:first-child{
+    border-radius: 5px 0px 0px 5px;
+}
+.tabSelectContainer>*:last-child{
+    border-radius: 0px 5px 5px 0px;
+}
+.tabOption{
+    flex: 1 1 0;
+    height:30px;
+    font-size:15px;
+
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:0 0 0 3px black;
+    margin:0 0 3px 3px;
+    z-index:1;
+
+    position: relative;
+    color: black;
+
+    transition:color .2s;
+}
+.tabOption-selected{
+    /* box-shadow:0 0 0 3px white; */
+    color: white;
+
+    z-index:2;
+}
+.tabOptionInnerText{
+}
+.tabSlidingBackground{
+    width:calc(100% + 2px);
+    height:100%;
+
+    position:absolute;
+    left:0px;
+    top:0px;
+    background:black;
+
+    transition:transform .2s;
+
+    z-index:-1;
+}

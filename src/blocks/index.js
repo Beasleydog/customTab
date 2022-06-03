@@ -1,3 +1,3 @@
 import TimeBlock from "./timeBlock"
-
-export { TimeBlock }
+import GooglePhotosBlock from "./googlePhotosBlock"
+export { TimeBlock, GooglePhotosBlock }

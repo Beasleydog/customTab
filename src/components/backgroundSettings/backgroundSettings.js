@@ -16,7 +16,6 @@ function BackgroundSettings(props) {
                     updatedBackground[setting] = value;
                     setBackground(updatedBackground);
                     updateBackground(updatedBackground);
-                    console.log("updated background!", updatedBackground, background)
                 }}
             />
         </>

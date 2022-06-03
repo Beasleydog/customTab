@@ -1,12 +1,13 @@
 function getAllSettings(pages) {
     //Get a object of all settings' default values
 
-    console.log(pages)
     let allSettings = {};
     Object.keys(pages).forEach((pageId) => {
         //Loop through all the pages of settings
         let page = pages[pageId];
         page.sections.forEach((section) => {
+            if (section.type !== "section") return;
+
             //Loop through all the sections of the page
             Object.keys(section.settings).forEach((settingKey) => {
                 allSettings[settingKey] = section.settings[settingKey];
@@ -46,9 +47,10 @@ function settingCleanRenderList(pages, settings) {
             icon: pages[page].icon,
             sections: []
         };
-
         pages[page].sections.forEach((section) => {
             //Loop through all sections of the page
+
+
 
             //If it has a condition, make sure it is all true
             if (section.condition) {
@@ -59,24 +61,27 @@ function settingCleanRenderList(pages, settings) {
 
             let cleanSection = {
                 humanName: section.humanName,
+                type: section.type,
                 settings: []
             }
-            Object.keys(section.settings).forEach((settingKey) => {
-                if (section.settings[settingKey].condition) {
-                    for (var conditionKey of Object.keys(section.settings[settingKey].condition)) {
-                        if (section.settings[settingKey].condition[conditionKey] !== settings[conditionKey]) return
+            if (section.settings) {
+                Object.keys(section.settings).forEach((settingKey) => {
+                    if (section.settings[settingKey].condition) {
+                        for (var conditionKey of Object.keys(section.settings[settingKey].condition)) {
+                            if (section.settings[settingKey].condition[conditionKey] !== settings[conditionKey]) return
+                        }
                     }
-                }
 
 
-                cleanSection.settings.push({
-                    setting: settingKey,
-                    value: settings[settingKey],
-                    valueType: section.settings[settingKey].type,
-                    humanName: section.settings[settingKey].humanName,
-                    values: section.settings[settingKey].values,
+                    cleanSection.settings.push({
+                        setting: settingKey,
+                        value: settings[settingKey],
+                        valueType: section.settings[settingKey].type,
+                        humanName: section.settings[settingKey].humanName,
+                        values: section.settings[settingKey].values,
+                    });
                 });
-            });
+            }
             cleanPages[page].sections.push(cleanSection);
         })
     });

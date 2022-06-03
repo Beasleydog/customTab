@@ -7,6 +7,5 @@ export function setDefaultBackgroundSettings() {
     Object.keys(allSettings).forEach((key) => {
         background[key] = allSettings[key].default;
     });
-    console.log(background)
     updateBackground(background);
 }

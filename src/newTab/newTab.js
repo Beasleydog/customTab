@@ -12,11 +12,17 @@ import updateToLatestSettings from '../helpers/functions/updateSettings';
 import Background from '../components/background/background';
 import { getAllSettings } from '../helpers/functions/settingFunctions';
 import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFunctions';
-function NewTab() {
+import { setStoredEditing, getStoredEditing } from '../helpers/functions/storage';
 
+function NewTab() {
   const [userBlocks, setBlocks] = useState(getBlocks());
   const [background, setBackground] = useState(getBackground());
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(getStoredEditing());
+
+  useEffect(() => {
+    setStoredEditing(editing);
+  }, [editing])
+
 
   useEffect(() => {
     //Run on page load to get user's blocks
@@ -33,7 +39,6 @@ function NewTab() {
   useEffect(() => {
     //Update all blocks to make sure they have their newest version of settings
     let newBlocks = userBlocks;
-    console.log(newBlocks);
     newBlocks = newBlocks.map((block) => {
       block.blockProps = updateToLatestSettings(getAllSettings(blocksMap[block.kind].settingPages), block.blockProps);
       return block;
@@ -139,15 +144,18 @@ function NewTab() {
       updateActiveBlock(null);
     }
   }
-
   return (
     <div>
       {userBlocks.map(block => {
         return (
           <span className="" onMouseOver={() => { setActiveBlock(block.id) }} onMouseLeave={() => { setActiveBlock(null, block.id) }}>
             <Rnd
-              className={`block ${editing && "block--editing"} ${activeBlock === block.id && "block--focused"}`}
+              className={`block ${editing && "block--editing"} ${activeBlock === block.id && "block--focused"} ${background.blockBackgroundStyle === "glass" && "block--glass"} ${background.blockBackgroundStyle === "transparent" && "block--transparent"}`}
               bounds="window"
+              style={{
+                ...background.blockBackgroundStyle === "color" && { background: background.blockBackgroundColor },
+              }}
+
 
               size={{ width: block.dragProps.width, height: block.dragProps.height }}
               position={{ x: block.dragProps.x, y: block.dragProps.y }}
@@ -159,12 +167,13 @@ function NewTab() {
               onResizeStop={updateBlockSize}
               onDragStop={updateBlockPosition}
 
-              lockAspectRatio
+              lockAspectRatio={blocksMap[block.kind].lockAspectRatio}
               disableDragging={!editing}
               enableResizing={editing}
 
               cancel=".blockButton"
 
+              resizeHandleWrapperClass="blockResizeHandleWrapper"
               resizeHandleComponent={editing && activeBlock === block.id && {
                 bottomRight: <Handle />,
                 bottomLeft: <Handle />,
@@ -174,7 +183,7 @@ function NewTab() {
             >
               <BlockContainer id={block.id} deleteBlock={() => { deleteBlock(block.id) }} focusedAndEditing={editing && activeBlock === block.id}>
                 {
-                  blockKindToComponent(block.kind, { width: block.dragProps.width, ...block.blockProps })
+                  blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.width, id: block.id, ...block.blockProps })
                 }
               </BlockContainer>
             </Rnd>
@@ -195,6 +204,10 @@ function NewTab() {
                 {
                   text: "Time Block",
                   onClick: () => { createNewBlock("timeBlock") }
+                },
+                {
+                  text: "Google Photos Block",
+                  onClick: () => { createNewBlock("googlePhotosBlock") }
                 },
                 { text: "OK" }
               ]

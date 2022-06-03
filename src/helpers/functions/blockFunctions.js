@@ -5,6 +5,7 @@ import { getSettingDefaultInfo } from "./settingFunctions";
 
 
 function getBlockHumanName(blockName) {
+    console.log(blockName, blocksMap[blockName].humanName);
     return blocksMap[blockName].humanName;
 }
 
@@ -40,10 +41,16 @@ function getSettingOptions(blockName, setting) {
 
 function validCheck(valueToCheck, obj) {
     switch (obj.type) {
-        case Boolean:
+        case "Boolean":
             return typeof (valueToCheck) === "boolean";
         case "Dropdown":
             return obj.values.filter((x) => { return x.id === valueToCheck }).length > 0;
+        case "TabSelect":
+            return obj.values.filter((x) => { return x.id === valueToCheck }).length > 0;
+        case "ColorSelect":
+            return typeof (valueToCheck) === "string";
+        case "String":
+            return typeof (valueToCheck) === "string";
         default:
             break;
     }

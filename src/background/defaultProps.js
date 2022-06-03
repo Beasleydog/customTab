@@ -9,79 +9,84 @@ const settingPages = {
         sections: [
 
             {
+                type: "section",
                 humanName: "Background Mode",
                 settings: {
                     mode: {
                         default: "color",
-                        type: "Dropdown",
+                        type: "TabSelect",
                         values: [
                             {
                                 value: "Color",
-                                id: "color"
+                                id: "color",
                             },
                             {
                                 value: "Image",
-                                id: "image"
+                                id: "image",
+                            },
+                            {
+                                value: "Pattern",
+                                id: "pattern",
+                            },
+                            {
+                                value: "Ambient",
+                                id: "ambient",
                             }
                         ],
                         isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                        humanName: "Background Mode"
-                    },
+                        humanName: ""
+                    }
+                }
+            },
+
+            {
+                type: "divider",
+            },
+            {
+                type: "section",
+                humanName: "Color Details",
+                condition: {
+                    mode: "color"
+                },
+                settings: {
                     colorValue: {
                         condition: { mode: "color" },
-                        default: "red",
-                        values: [{
-                            value: "Red",
-                            id: "red",
-                            background: "url(https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/322868_1100-800x825.jpg)"
-                        },
-                        {
-                            value: "Blue",
-                            id: "blue",
-                            background: "blue"
-                        },
-                        {
-                            value: "Three",
-                            id: "green",
-                            background: "green",
-                        },
-                        {
-                            value: "Rainbow",
-                            id: "rainbow",
-                            background: "red"
-                        }],
+                        default: "#FF0000",
                         isValidValue: function (valueToCheck) { validCheck(valueToCheck, this) },
-                        type: "BlockSelect",
+                        type: "ColorSelect",
                         humanName: "Background Color"
 
                     }
                 }
             },
-
-
             {
-                humanName: "Second Section",
+                type: "section",
+                humanName: "Image Details",
                 condition: {
-                    showAmPm: true
+                    mode: "image"
                 },
                 settings: {
-                    test2: {
-                        default: "one",
-                        values: [{
-                            value: "One",
-                            id: "one"
-                        },
-                        {
-                            value: "Two",
-                            id: "two"
-                        },
-                        {
-                            value: "Three",
-                            id: "three"
-                        }],
-                        isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                        type: "Dropdown",
-                        humanName: "Test2",
+                    unsplashQuery: {
+                        condition: { mode: "image" },
+                        default: "nature",
+                        isValidValue: function (valueToCheck) { validCheck(valueToCheck, this) },
+                        type: "String",
+                        humanName: "Image Type"
+
+                    },
+                    blurImage: {
+                        condition: { mode: "image" },
+                        default: true,
+                        isValidValue: function (valueToCheck) { validCheck(valueToCheck, this) },
+                        type: "Boolean",
+                        humanName: "Blur Image"
+                    },
+                    darkenImage: {
+                        condition: { mode: "image" },
+                        default: false,
+                        isValidValue: function (valueToCheck) { validCheck(valueToCheck, this) },
+                        type: "Boolean",
+                        humanName: "Darken Image"
                     },
                 }
             }
@@ -91,19 +96,50 @@ const settingPages = {
 
     blocks: {
         icon: "/assets/pencil.svg",
-        humanName: "Other Settings",
+        humanName: "Block Settings",
         sections: [
             {
-                humanName: "Other First Section",
+                humanName: "Block Background",
+                type: "section",
                 settings: {
-                    randomBoolean: {
-                        default: true,
-                        type: Boolean,
+                    blockBackgroundStyle: {
+                        default: "glass",
+                        type: "TabSelect",
+                        values: [
+                            {
+                                value: "Glass",
+                                id: "glass",
+                            },
+                            {
+                                value: "Transparent",
+                                id: "transparent",
+                            },
+                            {
+                                value: "Color",
+                                id: "color",
+                            }
+                        ],
                         isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                        humanName: "Rand Boolean",
+                        humanName: ""
                     },
                 }
-            }
+            },
+            {
+                type: "section",
+                humanName: "Color Details",
+                condition: {
+                    blockBackgroundStyle: "color"
+                },
+                settings: {
+                    blockBackgroundColor: {
+                        default: "#FF0000",
+                        isValidValue: function (valueToCheck) { validCheck(valueToCheck, this) },
+                        type: "ColorSelect",
+                        humanName: "Background Color"
+
+                    }
+                }
+            },
         ]
     }
 };

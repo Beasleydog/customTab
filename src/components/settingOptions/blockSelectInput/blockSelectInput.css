@@ -30,7 +30,7 @@ user-select: none;
     filter: unset !important;
 }
 .blockOptionText{
-    text-shadow: black 0px 0px 2px;
+    text-shadow: black 0px 1px 8px;
 
     transition: text-shadow .1s, color .1s, background .1s;
 }

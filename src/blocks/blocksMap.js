@@ -12,12 +12,19 @@ const blocksMap = {
                 sections: [
                     {
                         humanName: "First Section",
+                        type: "section",
                         settings: {
                             showAmPm: {
                                 default: true,
-                                type: Boolean,
+                                type: "Boolean",
                                 isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
                                 humanName: "Show AM/PM",
+                            },
+                            showSeconds: {
+                                default: false,
+                                type: "Boolean",
+                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                                humanName: "Show Seconds"
                             },
                             test: {
                                 default: "one",
@@ -41,6 +48,7 @@ const blocksMap = {
                     },
                     {
                         humanName: "Second Section",
+                        type: "section",
                         condition: {
                             showAmPm: true
                         },
@@ -73,10 +81,11 @@ const blocksMap = {
                 sections: [
                     {
                         humanName: "Other First Section",
+                        type: "section",
                         settings: {
                             randomBoolean: {
                                 default: true,
-                                type: Boolean,
+                                type: "Boolean",
                                 isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
                                 humanName: "Rand Boolean",
                             },
@@ -85,7 +94,34 @@ const blocksMap = {
                 ]
             }
         },
-        humanName: "Time Block"
+        humanName: "Time Block",
+        lockAspectRatio: true,
+    },
+    'googlePhotosBlock': {
+        block: Blocks.GooglePhotosBlock,
+        humanName: "Google Photos Block",
+        defaultSizes: { width: "200px", height: "200px" },
+        settingPages: {
+            albums: {
+                icon: "/assets/pencil.svg",
+                humanName: "Albums",
+                sections: [
+                    {
+                        humanName: "Album URLs",
+                        type: "section",
+                        settings: {
+                            albumUrls: {
+                                default: [],
+                                type: "List",
+                                itemValidationFunction: function (listItem) { return true },
+                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                                humanName: "Album URL(s)",
+                            }
+                        }
+                    }
+                ]
+            }
+        }
     }
 }
 

@@ -1,0 +1,41 @@
+.colorInputContainer{
+    display:flex;
+    align-items: center;
+    gap:20px;
+}
+.colorSelectorContainer{
+    padding:10px;
+}
+.colorInputDisplayColor{
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    box-shadow: #f7f7f7 0px 0px 4px;
+    animation: ambientGrow 2s ease-in-out infinite;
+}
+@keyframes ambientGrow{
+    0%{
+        transform:rotate(-4deg);
+    }
+    50%{
+        transform: rotate(4deg);
+    }
+    100%{
+transform:rotate(-4deg);
+    }
+}
+.small .react-colorful {
+    width: 120px;
+    height: 120px;
+  }
+  .small .react-colorful__hue {
+    height: 20px;
+  }
+  .small .react-colorful__saturation-pointer {
+    width: 20px;
+    height: 20px;
+  }
+  .small .react-colorful__hue-pointer{
+    width: 20px;
+    height: 20px;
+  }

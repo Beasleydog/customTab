@@ -1,3 +1,8 @@
+.settingsDivider{
+    width:100%;
+    border-bottom:#d0d0d02e solid;
+    padding:0px 10px;
+}
 .pageHeader{
     font-size:23px;
     padding-bottom:10px;
@@ -99,7 +104,9 @@ background-image: url("data:image/svg+xml,%3Csvg width='70' height='70' viewBox=
 }
 .dropdownInput{
 }
-
+.tabInput{
+    text-align: center;
+}
 .settingContainer{
     gap:10px;
     font-size:16px;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getBlockById } from '../../helpers/functions/storage';
-import { getSettingGroups, getSettingGroup, getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName, getSettingOptions } from '../../helpers/functions/blockFunctions';
+import { getBlockHumanName, blockKindToComponent, updateBlockSetting } from '../../helpers/functions/blockFunctions';
 import pxToInt from '../../helpers/functions/pxToInt';
 import SettingsTemplate from '../settingsTemplate/settingsTemplate';
 import { settingCleanRenderList } from '../../helpers/functions/settingFunctions';
@@ -16,7 +16,6 @@ function BlockSettings(props) {
         //Set width to width of parent element
         setDisplayBlockWidth(ref.current.offsetWidth)
     }, [ref]);
-    console.log(block);
 
 
     return (
