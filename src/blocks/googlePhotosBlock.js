@@ -7,27 +7,26 @@ import { getStoredValue, setStoredValue } from '../helpers/functions/storage';
 
 export default function GooglePhotosBlock(props) {
     const [imageURL, setImageURL] = useState('');
-
+    console.log("google photos block", props);
     useEffect(() => {
-        console.log(JSON.stringify(getStoredValue(`${props.id}.albumUrls`)) === JSON.stringify(props.albumUrls.split(",")));
         if (
             getStoredValue(`${props.id}.photos`) && getStoredValue(`${props.id}.photos`).length !== 0
             &&
-            JSON.stringify(getStoredValue(`${props.id}.albumUrls`)) === JSON.stringify(props.albumUrls.split(","))
+            JSON.stringify(getStoredValue(`${props.id}.albumUrls`)) === JSON.stringify(props.albumUrls.map((x) => x.value))
         ) {
             //We got images, and they are from the correct albums that are set in settings
             setImageURL(getStoredValue(`${props.id}.photos`)[Math.floor(Math.random() * getStoredValue(`${props.id}.photos`).length)]);
         } else {
             console.log("no photos in block", props.id, props.albumUrls)
             //No photos have been stored for this block, do this now! (or its just from an old ablum)
-            chrome.runtime.sendMessage({ type: "blockMessage", data: { blockType: "googlePhotosBlock", request: "getAlbumPhotos", albumUrls: props.albumUrls.split(",") } }, (response) => {
+            chrome.runtime.sendMessage({ type: "blockMessage", data: { blockType: "googlePhotosBlock", request: "getAlbumPhotos", albumUrls: props.albumUrls.map((x) => x.value) } }, (response) => {
                 setStoredValue(`${props.id}.photos`, JSON.stringify(response));
-                setStoredValue(`${props.id}.albumUrls`, JSON.stringify(props.albumUrls.split(",")));
+                setStoredValue(`${props.id}.albumUrls`, JSON.stringify(props.albumUrls.map((x) => x.value)));
                 setImageURL(response[Math.floor(Math.random() * response.length)]);
             })
         }
 
-    }, [])
+    }, [props.albumUrls])
 
 
     return (

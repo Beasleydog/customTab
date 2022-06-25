@@ -1,7 +1,3 @@
-import { updateBlock, getBlockById } from './storage';
-import blocksMap from '../../blocks/blocksMap';
-import { getSettingDefaultInfo } from './settingFunctions';
-
 function updateToLatestSettings(correctSettings, blockSettings) {
 
     //Add new settins

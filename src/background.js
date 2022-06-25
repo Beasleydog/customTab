@@ -14,9 +14,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                switch (request.data.request) {
                   case "getAlbumPhotos":
                      //The Google Photos block wants us to get all the photos 📷 from some albums, ok!
-                     console.log("getting urls");
+                     //console.log("getting urls");
+                     //console.log(request.data.albumUrls);
                      imagesFromGooglePhotosAlbums(request.data.albumUrls, ((photos) => {
-                        console.log("sending")
+                        //console.log("sending")
                         sendResponse(photos);
                      }));
 

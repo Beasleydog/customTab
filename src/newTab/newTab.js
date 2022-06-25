@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
 import blocksMap from '../blocks/blocksMap';
 import Dropdown from '../components/dropdown/dropdown';
-import { getBlocks, updateBlocks, getBackground } from '../helpers/functions/storage';
+import { getBlocks, updateBlocks, getBackground, deleteStoredValues } from '../helpers/functions/storage';
 import openPopup from '../helpers/functions/openPopup';
 import { BlockContainer } from '../components/blockContainer/blockContainer';
 import { blockKindToComponent } from '../helpers/functions/blockFunctions';
@@ -13,7 +13,7 @@ import Background from '../components/background/background';
 import { getAllSettings } from '../helpers/functions/settingFunctions';
 import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFunctions';
 import { setStoredEditing, getStoredEditing } from '../helpers/functions/storage';
-
+import Button from '../components/button/button';
 function NewTab() {
   const [userBlocks, setBlocks] = useState(getBlocks());
   const [background, setBackground] = useState(getBackground());
@@ -118,6 +118,9 @@ function NewTab() {
     //Update new blocks in storage
     updateBlocks(newList);
 
+    //Delete all stored values for the block
+    deleteStoredValues(id);
+
     setBlocks(newList);
   }
 
@@ -195,10 +198,9 @@ function NewTab() {
         {/* If in editing mode, render the dropdown to add a new block */}
         {editing ? (
           <>
-            <button id="addBlockButton" onClick={() => { openPopup(<BackgroundSettings />, { width: "40%" }) }}>
+            <Button onClick={() => { openPopup(<BackgroundSettings />, { width: "40%" }) }} type="WHITE_BACK_BLACK_BORDER" size={50} >
               Theme
-            </button>
-
+            </Button>
             <Dropdown items={
               [
                 {
@@ -212,20 +214,16 @@ function NewTab() {
                 { text: "OK" }
               ]
             } >
-              <div id="addBlockButton">
+              <Button type="WHITE_BACK_BLACK_BORDER" size={50} >
                 Add
-              </div>
+              </Button>
 
             </Dropdown>
 
-            <button id="addBlockButton" onClick={() => { setEditing(!editing) }}>
-              <img style={{ width: "20px" }} src="/assets/close.svg" alt="Stop editing" />
-            </button>
+            <Button type="WHITE_BACK_BLACK_BORDER" size={50} onClick={() => { setEditing(!editing) }} icon="/assets/close.svg" />
           </>) : (
           // Otherwise render the button to start editing
-          <button id="addBlockButton" onClick={() => { setEditing(!editing) }}>
-            <img style={{ width: "20px" }} src="/assets/edit.svg" alt="Enable editing" />
-          </button>
+          <Button type="WHITE_BACK_BLACK_BORDER" size={50} onClick={() => { setEditing(!editing) }} icon="/assets/edit.svg" />
         )
         }
 

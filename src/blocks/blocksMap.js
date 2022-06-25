@@ -113,7 +113,23 @@ const blocksMap = {
                             albumUrls: {
                                 default: [],
                                 type: "List",
-                                itemValidationFunction: function (listItem) { return true },
+                                placeholder: "https://photos.app.goo.gl/...",
+                                itemValidationFunction: function (listItem) {
+                                    let validationRegex = /https:\/\/photos\.app\.goo\.gl\/.*/gm;
+                                    if (validationRegex.test(listItem)) {
+                                        return { valid: true }
+                                    } else {
+                                        return { valid: false, message: "Not a valid Google Photos URL" }
+                                    }
+                                },
+                                itemTitleFunction: async function (listItem) {
+                                    console.log("getting title for ", listItem)
+                                    const titleRegex = /<title>(.*)<\/title>/;
+                                    let itemTitle = await fetch(listItem);
+                                    itemTitle = await itemTitle.text();
+                                    itemTitle = itemTitle.match(titleRegex)[1];
+                                    return itemTitle;
+                                },
                                 isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
                                 humanName: "Album URL(s)",
                             }

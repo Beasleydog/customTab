@@ -24,6 +24,7 @@ function BlockSettings(props) {
 
 
             settingChanged={(setting, value) => {
+                console.log("a setting changed", setting, value);
                 let updatedBlock = updateBlockSetting(block.id, setting, value);
                 setBlock(updatedBlock);
             }}
@@ -32,7 +33,7 @@ function BlockSettings(props) {
                 <div ref={ref} id="blockDisplay" style={{
                     height: `${displayBlockWidth / pxToInt(block.dragProps.width) * pxToInt(block.dragProps.height)}px`
                 }}>
-                    {blockKindToComponent(block.kind, { setting: true, second: (new Date()).getSeconds(), ...block.blockProps })}
+                    {blockKindToComponent(block.kind, { setting: true, second: (new Date()).getSeconds(), ...block.blockProps, id: block.id })}
                 </div>
             }
         />

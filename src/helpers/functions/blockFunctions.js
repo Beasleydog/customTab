@@ -5,7 +5,7 @@ import { getSettingDefaultInfo } from "./settingFunctions";
 
 
 function getBlockHumanName(blockName) {
-    console.log(blockName, blocksMap[blockName].humanName);
+    //console.log(blockName, blocksMap[blockName].humanName);
     return blocksMap[blockName].humanName;
 }
 
@@ -22,7 +22,9 @@ function blockKindToComponent(kind, props) {
 }
 
 function updateBlockSetting(id, setting, newValue) {
+    console.log("UPDATING BLOCK SETTING", id, setting, newValue);
     let blocks = getBlocks();
+    console.log(blocks);
     let changedBlock;
     blocks.forEach((block) => {
         if (block.id === id) {
@@ -30,6 +32,7 @@ function updateBlockSetting(id, setting, newValue) {
             changedBlock = block;
         }
     });
+    console.log(blocks);
     updateBlocks(blocks);
 
     return changedBlock;
@@ -51,6 +54,8 @@ function validCheck(valueToCheck, obj) {
             return typeof (valueToCheck) === "string";
         case "String":
             return typeof (valueToCheck) === "string";
+        case "List":
+            return typeof (valueToCheck) == "object" && JSON.stringify(valueToCheck)[0] === "[";
         default:
             break;
     }

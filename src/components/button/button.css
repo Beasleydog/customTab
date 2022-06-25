@@ -1,8 +1,27 @@
 #button{
-    background:none;
-    border:black solid 3.5px;
-    padding:6px;
-    border-radius:5px;
-    font-size:14px;
-    cursor:pointer;
+    background: none;
+    border: black solid 3.5px;
+    /* padding: 6px; */
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.WHITE_BACK_BLACK_BORDER{
+    background:white !important;
+}
+.WHITE_BACK_BLACK_SHADOW{
+    background:white !important;
+    border:none !important;
+    box-shadow: rgba(0,0,0,30%) 0px 0px 3px;
+}
+.WHITE_BACK_BLACK_SHADOW_ON_HOVER{
+    background:white !important;
+    border:none !important;
+    transition:box-shadow .1s;
+}
+.WHITE_BACK_BLACK_SHADOW_ON_HOVER:hover{
+    box-shadow: rgba(0,0,0,30%) 0px 0px 3px;
 }
