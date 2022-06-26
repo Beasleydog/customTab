@@ -186,7 +186,7 @@ function NewTab() {
             >
               <BlockContainer id={block.id} deleteBlock={() => { deleteBlock(block.id) }} focusedAndEditing={editing && activeBlock === block.id}>
                 {
-                  blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.width, id: block.id, ...block.blockProps })
+                  blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.width, id: block.id, editMode: editing, ...block.blockProps })
                 }
               </BlockContainer>
             </Rnd>
@@ -211,7 +211,10 @@ function NewTab() {
                   text: "Google Photos Block",
                   onClick: () => { createNewBlock("googlePhotosBlock") }
                 },
-                { text: "OK" }
+                {
+                  text: "RemNote Queue Block",
+                  onClick: () => { createNewBlock("remnoteQueueBlock") }
+                },
               ]
             } >
               <Button type="WHITE_BACK_BLACK_BORDER" size={50} >

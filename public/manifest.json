@@ -9,6 +9,27 @@
   "background": {
     "service_worker":"background.js"    
   },
+  "content_scripts":[{
+    "matches": [
+      "https://www.remnote.com/*",
+      "https://alpha.remnote.com/*",
+      "https://beta.remnote.com/*",
+      "https://remnote-staging.herokuapp.com/*"
+    ],
+    "js":["/contentScripts/loadRemNote.js"],
+    "run_at": "document_end",
+    "all_frames":true
+  }],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/*.png",
+        "/*.svg",
+        "/contentScripts/loadIframe.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
     "host_permissions": ["https://photos.app.goo.gl/*","https://photos.google.com/share/*","https://weather.com/*","https://google.com/*","https://www.google.com/*"],
     "chrome_url_overrides":{
       "newtab":"index.html"

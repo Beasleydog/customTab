@@ -138,6 +138,47 @@ const blocksMap = {
                 ]
             }
         }
+    },
+    "remnoteQueueBlock": {
+        block: Blocks.RemNoteQueueBlock,
+        humanName: "RemNote Queue Block",
+        defaultSizes: { width: "400px", height: "400px" },
+        settingPages: {
+            main: {
+                icon: "/assets/pencil.svg",
+                humanName: "Main Page",
+                sections: [
+                    {
+                        humanName: "RemNote Version",
+                        type: "section",
+                        settings: {
+                            remnoteVersion: {
+                                default: "prod",
+                                values: [{
+                                    value: "Main RemNote",
+                                    id: "prod"
+                                },
+                                {
+                                    value: "Alpha RemNote",
+                                    id: "alpha"
+                                },
+                                {
+                                    value: "Beta RemNote",
+                                    id: "beta"
+                                },
+                                {
+                                    value: "RemNote Staging",
+                                    id: "staging"
+                                }],
+                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                                type: "Dropdown",
+                                humanName: "RemNote Version",
+                            }
+                        }
+                    }
+                ]
+            }
+        }
     }
 }
 
