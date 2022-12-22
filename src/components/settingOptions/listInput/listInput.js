@@ -18,7 +18,7 @@ export default function ListInput(props) {
             values.filter(v => v.id !== id)
         )
     }
-    console.log(props);
+
     return (
         <div className="listInputContainer">
             <div className="listInputInputSection">

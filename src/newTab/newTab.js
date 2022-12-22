@@ -1,3 +1,5 @@
+/* global chrome */
+
 import React, { useState, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
 import blocksMap from '../blocks/blocksMap';
@@ -5,24 +7,26 @@ import Dropdown from '../components/dropdown/dropdown';
 import { getBlocks, updateBlocks, getBackground, deleteStoredValues } from '../helpers/functions/storage';
 import openPopup from '../helpers/functions/openPopup';
 import { BlockContainer } from '../components/blockContainer/blockContainer';
-import { blockKindToComponent } from '../helpers/functions/blockFunctions';
+import { blockKindToComponent, getBlockHumanName } from '../helpers/functions/blockFunctions';
 import useInterval from '../helpers/functions/useInterval';
 import { BackgroundSettings } from '../components/backgroundSettings/backgroundSettings';
 import updateToLatestSettings from '../helpers/functions/updateSettings';
 import Background from '../components/background/background';
 import { getAllSettings } from '../helpers/functions/settingFunctions';
 import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFunctions';
-import { setStoredEditing, getStoredEditing } from '../helpers/functions/storage';
 import Button from '../components/button/button';
+import RenderBlocker from '../components/renderBlocker/renderBlocker';
+import pxToInt from '../helpers/functions/pxToInt';
+
+const FIRST_RUN = localStorage.getItem("firstRun") == undefined;
+if (FIRST_RUN) {
+  setDefaultBackgroundSettings();
+}
+
 function NewTab() {
   const [userBlocks, setBlocks] = useState(getBlocks());
   const [background, setBackground] = useState(getBackground());
-  const [editing, setEditing] = useState(getStoredEditing());
-
-  useEffect(() => {
-    setStoredEditing(editing);
-  }, [editing])
-
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     //Run on page load to get user's blocks
@@ -32,7 +36,14 @@ function NewTab() {
     //Ensure the background is set to atleast the default values
     if (!background) {
       //Background has never been set before
-      setDefaultBackgroundSettings();
+    }
+
+    //If this is the first run, update storage to make sure we don't run first time code again in future
+    if (FIRST_RUN) {
+      localStorage.setItem("firstRun", false);
+      setTimeout(() => {
+        createNewBlock("timeBlock");
+      }, 10);
     }
   }, []);
 
@@ -45,7 +56,15 @@ function NewTab() {
     });
     setBlocks(newBlocks);
     updateBlocks(newBlocks);
-  }, [])
+  }, []);
+
+
+  useEffect(() => {
+    if (localStorage.length == 0) {
+      alert("new");
+
+    }
+  }, []);
 
   useInterval(() => {
     //Check for updates from other tabs or settings, etc
@@ -61,6 +80,8 @@ function NewTab() {
 
         block.dragProps.width = ref.style.width;
         block.dragProps.height = ref.style.height;
+        block.dragProps.x = position.x;
+        block.dragProps.y = position.y;
       }
       return block;
     }));
@@ -88,8 +109,10 @@ function NewTab() {
     let block = {
       kind: kind,
       dragProps: {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        x: window.innerWidth / 2 - pxToInt(blocksMap[kind].defaultSizes.width) / 2,
+        y: window.innerHeight / 2 - pxToInt(blocksMap[kind].defaultSizes.height) / 2,
+        width: blocksMap[kind].defaultSizes.width,
+        height: blocksMap[kind].defaultSizes.height,
         ...blocksMap[kind].defaultSizes
       },
       blockProps: {},
@@ -147,51 +170,15 @@ function NewTab() {
       updateActiveBlock(null);
     }
   }
+
+  if (background) {
+    window.themeColor = background.themeColor;
+  }
+
   return (
-    <div>
-      {userBlocks.map(block => {
-        return (
-          <span className="" onMouseOver={() => { setActiveBlock(block.id) }} onMouseLeave={() => { setActiveBlock(null, block.id) }}>
-            <Rnd
-              className={`block ${editing && "block--editing"} ${activeBlock === block.id && "block--focused"} ${background.blockBackgroundStyle === "glass" && "block--glass"} ${background.blockBackgroundStyle === "transparent" && "block--transparent"}`}
-              bounds="window"
-              style={{
-                ...background.blockBackgroundStyle === "color" && { background: background.blockBackgroundColor },
-              }}
-
-
-              size={{ width: block.dragProps.width, height: block.dragProps.height }}
-              position={{ x: block.dragProps.x, y: block.dragProps.y }}
-              minHeight={35}
-
-              key={block.id}
-              id={block.id}
-
-              onResizeStop={updateBlockSize}
-              onDragStop={updateBlockPosition}
-
-              lockAspectRatio={blocksMap[block.kind].lockAspectRatio}
-              disableDragging={!editing}
-              enableResizing={editing}
-
-              cancel=".blockButton"
-
-              resizeHandleWrapperClass="blockResizeHandleWrapper"
-              resizeHandleComponent={editing && activeBlock === block.id && {
-                bottomRight: <Handle />,
-                bottomLeft: <Handle />,
-                topRight: <Handle />,
-                topLeft: <Handle />
-              }}
-            >
-              <BlockContainer id={block.id} deleteBlock={() => { deleteBlock(block.id) }} focusedAndEditing={editing && activeBlock === block.id}>
-                {
-                  blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.width, id: block.id, editMode: editing, ...block.blockProps })
-                }
-              </BlockContainer>
-            </Rnd>
-          </span>
-        )
+    <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+      {userBlocks.map((block, i) => {
+        return (<RenderBlock key={i} block={block} updateBlockSize={updateBlockSize} updateBlockPosition={updateBlockPosition} deleteBlock={deleteBlock} setActiveBlock={setActiveBlock} activeBlock={activeBlock} background={background} editing={editing} />)
       })}
 
       <div id="addContainer">
@@ -214,6 +201,18 @@ function NewTab() {
                 {
                   text: "RemNote Queue Block",
                   onClick: () => { createNewBlock("remnoteQueueBlock") }
+                },
+                {
+                  text: "Google Calendar Block",
+                  onClick: () => { createNewBlock("googleCalendarBlock") }
+                },
+                {
+                  text: "Text Area Block",
+                  onClick: () => { createNewBlock("textAreaBlock") }
+                },
+                {
+                  text: "Weather Block",
+                  onClick: () => { createNewBlock("weatherBlock") }
                 },
               ]
             } >
@@ -240,6 +239,58 @@ function NewTab() {
 function Handle() {
   return (<div className='resizeBox'>
   </div>)
+}
+
+function RenderBlock({ block, updateBlockSize, updateBlockPosition, deleteBlock, setActiveBlock, activeBlock, background, editing }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <span yeah="ok"
+      className="" onMouseOver={() => { setHovered(true); setActiveBlock(block.id) }} onMouseLeave={() => { setActiveBlock(null, block.id) }}>
+
+      <Rnd
+        className={`block ${editing && "block--editing"} ${activeBlock === block.id && "block--focused"} ${background.blockBackgroundStyle === "glass" && "block--glass"} ${background.blockBackgroundStyle === "transparent" && "block--transparent"}`}
+        bounds="window"
+        style={{
+          ...background.blockBackgroundStyle === "color" && { background: background.blockBackgroundColor },
+          color: background.themeColor
+        }}
+
+
+        size={{ width: block.dragProps.width, height: block.dragProps.height }}
+        position={{ x: block.dragProps.x, y: block.dragProps.y }}
+        minHeight={50}
+
+        key={block.id}
+        id={block.id}
+
+        onResizeStop={updateBlockSize}
+        onDragStop={updateBlockPosition}
+
+        lockAspectRatio={blocksMap[block.kind].lockAspectRatio}
+        disableDragging={!editing}
+        enableResizing={editing}
+
+        cancel=".blockButton"
+
+        resizeHandleWrapperClass="blockResizeHandleWrapper"
+        resizeHandleComponent={editing && activeBlock === block.id && {
+          bottomRight: <Handle />,
+          bottomLeft: <Handle />,
+          topRight: <Handle />,
+          topLeft: <Handle />
+        }}
+      >
+        <BlockContainer id={block.id} deleteBlock={() => { deleteBlock(block.id) }} focusedAndEditing={editing && activeBlock === block.id}>
+          <RenderBlocker editing={editing} block={block.blockProps.hoverToLoad} hovered={hovered} humanName={getBlockHumanName(block.kind)}>
+            {
+              blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.width, id: block.id, editMode: editing, backgroundTheme: background.themeColor, ...block.blockProps })
+            }
+          </RenderBlocker>
+        </BlockContainer>
+
+      </Rnd>
+    </span>
+  )
 }
 
 export default NewTab;

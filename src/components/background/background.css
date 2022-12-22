@@ -16,3 +16,13 @@
     position: fixed;
     z-index:-1;
 }
+.blur::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+}
+.darken{
+    filter:darken(0.8);
+}

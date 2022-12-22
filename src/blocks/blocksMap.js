@@ -1,10 +1,33 @@
 import * as Blocks from './index.js';
 import { validCheck } from '../helpers/functions/blockFunctions';
 
+
+const hoverToLoadSettings = {
+    blockSettings: {
+        icon: "/assets/gear.svg",
+        humanName: "Block Settings",
+        sections: [
+            {
+                humanName: "Rendering",
+                type: "section",
+                settings: {
+                    hoverToLoad: {
+                        default: true,
+                        isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                        type: "Boolean",
+                        humanName: "Hover to Load",
+                    }
+                }
+            }
+        ]
+    }
+}
+
+
 const blocksMap = {
     'timeBlock': {
         block: Blocks.TimeBlock,
-        defaultSizes: { width: "154px", height: "29px" },
+        defaultSizes: { width: "1100px", height: "232px" },
         settingPages: {
             main: {
                 icon: "/assets/pencil.svg",
@@ -123,7 +146,7 @@ const blocksMap = {
                                     }
                                 },
                                 itemTitleFunction: async function (listItem) {
-                                    console.log("getting title for ", listItem)
+
                                     const titleRegex = /<title>(.*)<\/title>/;
                                     let itemTitle = await fetch(listItem);
                                     itemTitle = await itemTitle.text();
@@ -177,9 +200,103 @@ const blocksMap = {
                         }
                     }
                 ]
-            }
+            },
+            ...hoverToLoadSettings
         }
+    },
+    'googleCalendarBlock': {
+        block: Blocks.GoogleCalendarBlock,
+        humanName: "Google Calendar Block",
+        defaultSizes: { width: "200px", height: "400px" },
+        settingPages: {
+            calendarSettings: {
+                icon: "/assets/pencil.svg",
+                humanName: "Calendar Settings",
+                sections: [
+                    {
+                        humanName: "Calendar Account",
+                        type: "section",
+                        settings: {
+                            calendarAccount: {
+                                default: "",
+                                placeholder: "example@gmail.com",
+                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                                type: "String",
+                                humanName: "Calendar Account",
+                            }
+                        }
+                    },
+                    {
+                        humanName: "Calendar View",
+                        type: "section",
+                        settings: {
+                            calendarView: {
+                                default: "day",
+                                values: [{
+                                    value: "Day",
+                                    id: "day"
+                                },
+                                {
+                                    value: "Week",
+                                    id: "week"
+                                },
+                                {
+                                    value: "Month",
+                                    id: "month"
+                                }
+                                ],
+                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                                type: "Dropdown",
+                                humanName: "Calendar View",
+                            }
+                        }
+                    }
+                ]
+            },
+            ...hoverToLoadSettings
+        }
+    },
+    "textAreaBlock": {
+        block: Blocks.TextAreaBlock,
+        humanName: "Text Block",
+        defaultSizes: { width: "200px", height: "200px" },
+        settingPages: {
+            display: {
+                icon: "/assets/pencil.svg",
+                humanName: "Display Settings",
+                sections: [
+                    {
+                        humanName: "Theme Coloring",
+                        type: "section",
+                        settings: {
+                            themeColoring: {
+                                default: "back",
+                                values: [{
+                                    value: "Background",
+                                    id: "back"
+                                }, {
+                                    value: "Text",
+                                    id: "text"
+                                }],
+                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                                type: "Dropdown",
+                                humanName: "Display theme in"
+                            }
+                        }
+                    }
+                ]
+            },
+            ...hoverToLoadSettings
+        }
+    },
+    "weatherBlock": {
+        block: Blocks.WeatherBlock,
+        humanName: "Weather Block",
+        defaultSizes: { width: "150px", height: "130px" },
+        lockAspectRatio: true,
+        settingPages: {}
     }
 }
+
 
 export default blocksMap;

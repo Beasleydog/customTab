@@ -3,10 +3,12 @@ import './background.css';
 import { getBackground } from '../../helpers/functions/storage';
 import useInterval from '../../helpers/functions/useInterval';
 import { getStoredValue, setStoredValue } from '../../helpers/functions/storage'
-
+import { setDefaultBackgroundSettings } from '../../helpers/functions/backgroundFunctions';
 function Background(props) {
     const [background, setBackground] = useState(getBackground());
     const [BackgroundElement, setBackgroundElement] = useState(<div />);
+
+
 
     useInterval(() => {
         setBackground(getBackground());
@@ -14,9 +16,9 @@ function Background(props) {
 
     useEffect(() => {
         (async () => {
-            switch (background.mode) {
+            switch (background.pageBackgroundMode) {
                 case "color":
-                    setBackgroundElement(<div className="backgroundElement" style={{ background: background.colorValue }} />);
+                    setBackgroundElement(<div className="backgroundElement" style={{ background: background.pageBackgroundColorValue }} />);
                     break
                 case "image":
                     setBackgroundElement(<UnsplashPhoto type="background" unsplashQuery={background.unsplashQuery} blur={background.blurImage} darken={background.darkenImage} />);
@@ -52,13 +54,15 @@ function UnsplashPhoto(props) {
         setInitialURL(getStoredValue("background.nextUnsplashPhoto") || `https://source.unsplash.com/random/${window.innerWidth}x${window.innerHeight}/?${props.unsplashQuery}`)
     }, []);
 
-    let imageFilter = `${props.blur ? "blur(5px)" : ""} ${props.darken ? "brightness(0.8)" : ""}`;
+    let imageFilter = `${props.blur ? "blur" : ""}`;
     return (
         <>
-            <img alt="" style={{
-                filter: imageFilter
-            }}
-                className="backgroundElement" src={initialURL} />
+            <img alt=""
+                className={`backgroundElement ${imageFilter}`}
+                style={{
+                    ...(props.darken ? { filter: "brightness(0.8)" } : {}),
+                }}
+                src={initialURL} />
             <img style={{ display: "none" }} src={preloadPhotoURL} alt="" />
         </>
     )

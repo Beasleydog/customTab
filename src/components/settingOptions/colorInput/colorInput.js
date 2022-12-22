@@ -10,6 +10,12 @@ export default function ColorInput(props) {
     useEffect(() => {
         props.onChange(debouncedColor);
     }, [debouncedColor])
+
+
+    useEffect(() => {
+        setColor(props.value);
+    }, [props])
+
     return (
         <div className="colorInputContainer">
             <div className="colorSelectorContainer small">

@@ -1,72 +1,82 @@
-#addBlockButton{
-    box-shadow: rgb(0 0 0 / 34%) 0px 0px 4px;
-    border-radius:50%;
-    width:50px;
-    height:50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border:rgb(237, 230, 230) solid 1px;
-    background:white;
-    cursor: pointer;
+#addBlockButton {
+  box-shadow: rgb(0 0 0 / 34%) 0px 0px 4px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: rgb(237, 230, 230) solid 1px;
+  background: white;
+  cursor: pointer;
 
-    transition:transform .1s, box-shadow .1s;
+  transition: transform 0.1s, box-shadow 0.1s;
 
-    animation:introFade .2s linear;
+  animation: introFade 0.2s linear;
 }
-#addBlockButton:active{
-    box-shadow: rgb(191, 186, 186) 0px 0px 2px;
-    transform:translateY(2px)
-}
-
-@keyframes introFade{
-    from {opacity:0;}
-    to {opacity:1;}
+#addBlockButton:active {
+  box-shadow: rgb(191, 186, 186) 0px 0px 2px;
+  transform: translateY(2px);
 }
 
-#addContainer{
-    position: absolute;
-    right:10px;
-    bottom:10px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    gap:10px;
+@keyframes introFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.block{
-        overflow: visible;
-        border-radius: 5px;
-        box-sizing: border-box;
-        transition:box-shadow .2s;
-        color:white;
-        text-shadow:#0000005c 0px 0px 20px;
-
-        transition:background .1s,backdrop-filter .1s, border .1s;
-}
-.block--glass{
-   /* From https://css.glass */
-   background: rgba(255, 255, 255, 0.15);
-   backdrop-filter: blur(5px);
-   border: 1px solid rgba(255, 255, 255, 0.3);
-}
-.block--trasparent{
-  background:none;
+#addContainer {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  grid-gap: 10px;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px 0px 0px 0px;
+  background: rgba(255, 255, 255, 10%);
+  backdrop-filter: blur(2px);
+  box-shadow: rgba(0, 0, 0, 10%) 0px 0px 3px;
 }
 
-.block::before{
-  width:calc(100% + 4px);
-  height:calc(100% + 4px);
-  left:-2px;
-  top:-2px;
-  background:transparent;
-  position:absolute;
+.block {
+  overflow: hidden;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s;
+  color: white;
+  /* text-shadow: rgba(0,0,0,10%) 0px 0px 20px; */
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 10%));
+  transition: background 0.1s, backdrop-filter 0.1s, border 0.1s;
+}
+.block--glass {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.block--trasparent {
+  background: none;
+}
+
+.block::before {
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  left: -2px;
+  top: -2px;
+  background: transparent;
+  position: absolute;
   /* content:""; */
   backdrop-filter: blur(2px);
 }
 
-.block--editing{
-    /* box-shadow: rgba(0, 0, 0,10%) 0px 0px 2px;
+.block--editing {
+  /* box-shadow: rgba(0, 0, 0,10%) 0px 0px 2px;
     background: rgba(255,255,255,20%);
     backdrop-filter: blur(6px);
     border-radius: 5px;
@@ -74,136 +84,71 @@
     background: rgba(255, 255, 255, 0.766);
     backdrop-filter: blur(10px); */
 }
-.block--editing:hover{
-border:white solid;
+.block--editing:hover {
+  border: white solid;
 }
-.block--focused{
-  box-shadow: rgba(0,0,0,80%) 0px 0px 2px, inset rgba(0,0,0,80%) 0px 0px 2px;
+.block--focused {
+  box-shadow: rgba(0, 0, 0, 80%) 0px 0px 2px,
+    inset rgba(0, 0, 0, 80%) 0px 0px 2px;
 }
 
+.resizeBox {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.766);
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  animation: introFade 0.1s linear;
 
-.resizeBox{
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.766);
-    backdrop-filter: blur(10px);
-    border-radius: 5px;
-    animation:introFade .1s linear;
+  background: white;
+  backdrop-filter: blur(10px);
 
-    background: white;
-    backdrop-filter: blur(10px);
-
-  box-shadow: rgba(0,0,0,80%) 0px 0px 2px;
+  box-shadow: rgba(0, 0, 0, 80%) 0px 0px 2px;
 }
-.blockResizeHandleWrapper>*{
+.blockResizeHandleWrapper > * {
   padding: 2.5px;
   box-sizing: border-box;
 }
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap");
 
-*{
-    font-family: 'Inter',sans-serif;
+* {
+  font-family: "Inter", sans-serif;
 }
 
-.jumpIn {
-    transform-style: preserve-3d;
-    position:absolute;
-    transform:scale(1); 
-    animation: expand 0.5s cubic-bezier(.17,.67,.07,1.41);  
-  }
-  
-  @keyframes expand{
-    from{
-      transform:scale(.8);
-    }
-    to{
-      transform:scale(1);
-    }
-  }
-  
-  .jumpIn::before {
-    content: "";
-    position: absolute;
-    padding:50px;
-    margin:-50px; 
-  
-    
-    transform:translateZ(-1px);       
-    
-    width: 100%;
-    height: 100%;
-   
-    background-repeat: no-repeat;
-    background-image: linear-gradient(0deg, black 100%, black 0),
-      linear-gradient(0deg, black 100%, black 0),
-      linear-gradient(0deg, black 100%, black 0),
-      linear-gradient(0deg, black 100%, black 0);
-  background-position: 30% calc(50% - 1px), 
-        70% calc(50% - 1px),
-      calc(50% - 1px) 40%, 
-        calc(50% - 1px) 60%; 
-    
-    
-    background-size: 18px 2px, 18px 2px, 2px 18px, 2px 18px;
-    animation: linesExpand 0.4s cubic-bezier(.17,.67,.05,.72);
-    animation-fill-mode: forwards;
-    animation-delay:0.35s;
-   
+input[type="checkbox"] {
+  appearance: none;
+  margin: 0;
+
+  font: inherit;
+  width: 1.15em;
+  height: 1.15em;
+  border: black solid;
+  border-radius: 0.3em;
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+
+  transition: box-shadow 0.1s;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 0.2em;
+  background: black;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+
+  transition: opacity 0.05s;
+  opacity: 0;
+}
+
+input[type="checkbox"]:checked::before {
   opacity: 1;
-  overflow:visible;
-  }
-  
-  @keyframes linesExpand {
-    0% {
-      background-position: 30% calc(50% - 1px), 
-        70% calc(50% - 1px),
-      calc(50% - 1px) 40%, 
-        calc(50% - 1px) 60%;
-  opacity:1; 
-    } 
-    100% {
-  background-position: 0% calc(50% - 1px), 
-      100% calc(50% - 1px),
-      calc(50% - 1px) 0%, 
-      calc(50% - 1px) 100%;
-      opacity:0;
-    } 
-  }
-   
-  input[type="checkbox"] {
-    appearance: none;
-    margin: 0;
-  
-    font: inherit;
-    width: 1.15em;
-    height: 1.15em;
-    border:black solid;
-    border-radius: 0.3em;
-    transform: translateY(-0.075em);
-  
-    display: grid;
-    place-content: center;
+}
 
-    transition: box-shadow .1s;
-  }
-  
-  input[type="checkbox"]::before {
-    content: "";
-    width: 0.65em;
-    height: 0.65em;
-    border-radius: 0.2em;
-    background:black;
-    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-
-    transition:opacity 0.05s;
-    opacity:0;
-  }
-  
-  input[type="checkbox"]:checked::before {
-    opacity:1;
-  }
-  
-  input[type="checkbox"]:focus {
-    box-shadow: rgba(0, 0, 0,50%) 0px 0px 2px;
-    outline:none;
-  }
+input[type="checkbox"]:focus {
+  box-shadow: rgba(0, 0, 0, 50%) 0px 0px 2px;
+  outline: none;
+}

@@ -7,31 +7,50 @@
     "128": "logo128.png"
   },
   "background": {
-    "service_worker":"background.js"    
+    "service_worker": "background.js"
   },
-  "content_scripts":[{
-    "matches": [
-      "https://www.remnote.com/*",
-      "https://alpha.remnote.com/*",
-      "https://beta.remnote.com/*",
-      "https://remnote-staging.herokuapp.com/*"
-    ],
-    "js":["/contentScripts/loadRemNote.js"],
-    "run_at": "document_end",
-    "all_frames":true
-  }],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.remnote.com/*",
+        "https://alpha.remnote.com/*",
+        "https://beta.remnote.com/*",
+        "https://remnote-staging.herokuapp.com/*"
+      ],
+      "js": ["/contentScripts/remNote/loadRemNote.js"],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": ["https://calendar.google.com/calendar/u/0/embed*"],
+      "include_globs": ["*#focusMain*"],
+      "css": ["/contentScripts/googleCalendar/focusMainContent.css"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
   "web_accessible_resources": [
     {
       "resources": [
         "/*.png",
         "/*.svg",
-        "/contentScripts/loadIframe.js"
+        "/contentScripts/remNote/loadIframe.js",
+        "/contentScripts/googleCalendar/adjustStyles.js",
+        "/contentScripts/googleCalendar/embedUrl.js"
       ],
       "matches": ["<all_urls>"]
     }
   ],
-    "host_permissions": ["https://photos.app.goo.gl/*","https://photos.google.com/share/*","https://weather.com/*","https://google.com/*","https://www.google.com/*"],
-    "chrome_url_overrides":{
-      "newtab":"index.html"
-    }
+  "host_permissions": [
+    "https://photos.app.goo.gl/*",
+    "https://photos.google.com/share/*",
+    "https://weather.com/*",
+    "https://google.com/*",
+    "https://www.google.com/*",
+    "https://calendar.google.com/*",
+    "<all_urls>"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  }
 }

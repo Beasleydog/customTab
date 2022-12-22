@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ResponsiveText, ResponsiveTextContainer } from '../components/responsiveText/responsiveTextSize';
 import useInterval from '../helpers/functions/useInterval';
-
+import { ResponsiveText } from "../components/responsiveText/responsiveTextSize";
 export default function TimeBlock(props) {
     const [time, setTime] = useState(currentTime());
+    const [rerender, setRerender] = useState(false);
+
+
     function currentTime() {
         let dateObject = new Date();
         let hours = dateObject.getHours() % 12 || 12
@@ -18,6 +20,8 @@ export default function TimeBlock(props) {
     useEffect(() => {
         //Force instant update if props have changed
         setTime(currentTime());
+
+        setRerender(!rerender);
     }, [props]);
 
     useInterval(() => {
@@ -25,18 +29,21 @@ export default function TimeBlock(props) {
     }, 1000);
 
     return (
-        <ResponsiveTextContainer>
-            <div style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <ResponsiveText defaultWidth={99} defaultFontSize={15}>
-                    {time}
-                </ResponsiveText>
-            </div >
-        </ResponsiveTextContainer>
+        // <ResponsiveTextContainer>
+        <div style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: "hidden",
+            padding: "10px",
+            boxSizing: "border-box"
+        }}>
+            <ResponsiveText width={props.width} height={props.height}>
+                {time}
+            </ResponsiveText>
+        </div >
+        // </ResponsiveTextContainer>
     )
 }

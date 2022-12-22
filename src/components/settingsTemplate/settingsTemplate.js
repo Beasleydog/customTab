@@ -7,6 +7,14 @@ import ListInput from "../settingOptions/listInput/listInput";
 function SettingsTemplate(props) {
     let [currentPage, setCurrentPage] = useState(Object.keys(props.pages)[0]);
 
+    function debounce(callback, delay) {
+        let timeout;
+        return function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(callback, delay);
+        }
+    }
+
     return (
         <>
             <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "row" }}>
@@ -27,7 +35,7 @@ function SettingsTemplate(props) {
                     </div>
                 </div>
                 <div id="settingsContent">
-                    <div className="section" style={{ zIndex: "10", boxShadow: "rgb(0 0 0 / 6%) 2px 0px 8px" }}>
+                    <div className="section" style={{ zIndex: "10" }}>
                         <div className="settingsContainer">
                             <div className="pageHeader">
                                 {props.pages[currentPage].humanName}
@@ -35,7 +43,7 @@ function SettingsTemplate(props) {
                             <div className="sectionsContainer">
                                 {
                                     props.pages[currentPage].sections.map((section) => {
-                                        //console.log(section);
+
                                         switch (section.type) {
                                             case "section":
                                                 return (
@@ -43,7 +51,7 @@ function SettingsTemplate(props) {
                                                         <div className="sectionHeader">{section.humanName}</div>
                                                         <div className="sectionSettings">
                                                             {section.settings.map((setting, i) => {
-                                                                //console.log("setting", setting)
+
                                                                 //For each stored setting value that the block has, render:
                                                                 switch (setting.valueType) {
                                                                     case "Boolean":
@@ -62,13 +70,15 @@ function SettingsTemplate(props) {
                                                                         return (
                                                                             <div key={i} className="horizontalSettingLayout">
                                                                                 <label >{setting.humanName}</label>
-                                                                                <input onChange={(e) => {
-                                                                                    props.settingChanged(setting.setting, e.target.value);
-                                                                                }} value={setting.value} />
+                                                                                <input placeholder={setting.placeholder} onChange={
+                                                                                    (e) => {
+                                                                                        props.settingChanged(setting.setting, e.target.value);
+                                                                                    }
+                                                                                } value={setting.value} />
                                                                             </div>
                                                                         )
                                                                     case "List":
-                                                                        //console.log("rendienr a list")
+
                                                                         //A list where the user can input values if its a list value
                                                                         return <ListInput itemTitleFunction={setting.itemTitleFunction} itemValidationFunction={setting.itemValidationFunction} placeholder={setting.placeholder} values={setting.value} onChange={(value) => { props.settingChanged(setting.setting, value) }} />
                                                                     case "Dropdown":

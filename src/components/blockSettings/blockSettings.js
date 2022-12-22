@@ -24,7 +24,7 @@ function BlockSettings(props) {
 
 
             settingChanged={(setting, value) => {
-                console.log("a setting changed", setting, value);
+
                 let updatedBlock = updateBlockSetting(block.id, setting, value);
                 setBlock(updatedBlock);
             }}
