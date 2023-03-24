@@ -1,8 +1,8 @@
 {
-  "name": "Awesome Eresrsxtension",
+  "name": "Custom Tab",
   "version": "0.0.1",
   "manifest_version": 3,
-  "description": "create-react-app for extensions",
+  "description": "Customize your new tab in any way you like! 😁",
   "icons": {
     "128": "logo128.png"
   },

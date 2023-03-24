@@ -27,7 +27,7 @@ export default function WeatherBlock(props) {
         setRerender(!rerender);
     }, [props]);
     return (
-        <div style={{ width: "100%", height: "100%" }}>
+        <div style={{ width: "100%", height: "100%", padding: "5px", boxSizing: "border-box" }}>
 
             <Loader loaded={weatherData.status === "success"}>
 
@@ -50,7 +50,7 @@ export default function WeatherBlock(props) {
                     <div
                         style={{ width: "40%" }}
                     >
-                        <div style={{ fill: window.themeColor, filter: `drop-shadow(0px 0px 1px ${window.themeColor}` }} dangerouslySetInnerHTML={{ __html: weatherData.iconSvg }} />
+                        <div style={{ fill: window.themeColor, filter: `drop-shadow(0px 0px 1px ${window.themeColor}`, marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: weatherData.iconSvg }} />
                     </div>
                 </div>
                 <div style={{ width: "100%", height: "30%" }}>

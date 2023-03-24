@@ -55,7 +55,10 @@ export default function GooglePhotosBlock(props) {
     }
 
     return (
-        <div style={{ width: "100%", height: "100%", padding: "10px", boxSizing: "border-box", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{
+            width: "100%", height: "100%", padding: "10px", boxSizing: "border-box", display: "flex", alignItems: "center", justifyContent: "center",
+            ...(props.albumUrls.length == 0 && { background: window.themeColor, color: "white" })
+        }}>
             <div style={{
                 fontWeight: "bold",
                 ...(props.albumUrls.length > 0 && { display: "none" })

@@ -4,6 +4,7 @@ import "./backgroundSettings.css";
 import { getBackground, updateBackground } from '../../helpers/functions/storage';
 import settingPages from '../../background/defaultProps';
 import { settingCleanRenderList } from '../../helpers/functions/settingFunctions';
+import rerenderTab from '../../helpers/functions/rerenderTab';
 function BackgroundSettings(props) {
     const [background, setBackground] = useState(getBackground());
     return (
@@ -16,6 +17,7 @@ function BackgroundSettings(props) {
                     updatedBackground[setting] = value;
                     setBackground(updatedBackground);
                     updateBackground(updatedBackground);
+                    rerenderTab();
                 }}
             />
         </>

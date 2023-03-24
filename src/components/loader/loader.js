@@ -6,7 +6,7 @@ function Loader(props) {
         <>
             {props.loaded
                 &&
-                <div style={{ ...(props.loaded ? { opacity: 1 } : { opacity: 0 }), position: "fixed", transition: "opacity .1s", width: "100%", height: "100%" }}>
+                <div style={{ ...(props.loaded ? { opacity: 1 } : { opacity: 0 }), transition: "opacity .1s", width: "100%", height: "100%" }}>
                     {props.children}
                 </div>
             }

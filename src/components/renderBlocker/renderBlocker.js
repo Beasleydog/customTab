@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./renderBlocker.css"
 
 import { ResponsiveText } from '../responsiveText/responsiveTextSize';
+import { realBlockFromJSON } from '../../helpers/functions/BlockAPI';
 
 function RenderBlocker(props) {
+    const [hovered, setHovered] = useState(false);
     console.log(props);
     return (
-        props.block && (!props.hovered || props.editing)
+        props.block && (!hovered || props.editing)
             ?
-            <div className="RenderBlocker" style={{
+            <div onMouseEnter={() => setHovered(true)} className="RenderBlocker" style={{
                 background: `${window.themeColor}20`
             }}>
                 <div className='blockHumanName'>

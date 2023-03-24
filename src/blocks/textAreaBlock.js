@@ -19,8 +19,7 @@ export default function TextAreaBlock(props) {
             <textarea value={text} onInput={updateText} style={{
                 width: '100%',
                 height: '100%',
-                backdropFilter: "brightness(1.5) blur(2px)",
-                padding: "10px",
+                padding: "25px",
                 boxSizing: "border-box",
                 outline: "none",
                 border: "none",

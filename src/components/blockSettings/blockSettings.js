@@ -5,6 +5,7 @@ import pxToInt from '../../helpers/functions/pxToInt';
 import SettingsTemplate from '../settingsTemplate/settingsTemplate';
 import { settingCleanRenderList } from '../../helpers/functions/settingFunctions';
 import blocksMap from '../../blocks/blocksMap';
+import rerenderTab from '../../helpers/functions/rerenderTab';
 
 function BlockSettings(props) {
     const [block, setBlock] = useState(getBlockById(props.id));
@@ -27,6 +28,7 @@ function BlockSettings(props) {
 
                 let updatedBlock = updateBlockSetting(block.id, setting, value);
                 setBlock(updatedBlock);
+                rerenderTab();
             }}
 
             displayComponent={

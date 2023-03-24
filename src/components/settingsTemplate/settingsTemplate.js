@@ -7,13 +7,6 @@ import ListInput from "../settingOptions/listInput/listInput";
 function SettingsTemplate(props) {
     let [currentPage, setCurrentPage] = useState(Object.keys(props.pages)[0]);
 
-    function debounce(callback, delay) {
-        let timeout;
-        return function () {
-            clearTimeout(timeout);
-            timeout = setTimeout(callback, delay);
-        }
-    }
 
     return (
         <>

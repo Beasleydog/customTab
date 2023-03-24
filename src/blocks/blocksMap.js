@@ -1,6 +1,23 @@
 import * as Blocks from './index.js';
-import { validCheck } from '../helpers/functions/blockFunctions';
 
+function validCheck(valueToCheck, obj) {
+    switch (obj.type) {
+        case "Boolean":
+            return typeof (valueToCheck) === "boolean";
+        case "Dropdown":
+            return obj.values.filter((x) => { return x.id === valueToCheck }).length > 0;
+        case "TabSelect":
+            return obj.values.filter((x) => { return x.id === valueToCheck }).length > 0;
+        case "ColorSelect":
+            return typeof (valueToCheck) === "string";
+        case "String":
+            return typeof (valueToCheck) === "string";
+        case "List":
+            return typeof (valueToCheck) == "object" && JSON.stringify(valueToCheck)[0] === "[";
+        default:
+            break;
+    }
+}
 
 const hoverToLoadSettings = {
     blockSettings: {
@@ -292,7 +309,7 @@ const blocksMap = {
     "weatherBlock": {
         block: Blocks.WeatherBlock,
         humanName: "Weather Block",
-        defaultSizes: { width: "150px", height: "130px" },
+        defaultSizes: { width: "150px", height: "90px" },
         lockAspectRatio: true,
         settingPages: {}
     }

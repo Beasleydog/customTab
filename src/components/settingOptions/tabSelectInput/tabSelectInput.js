@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./tabSelectInput.css";
 
 function TabSelectInput(props) {
     const [selectedTab, setSelectedTab] = useState(props.value);
+    useEffect(() => {
+        setSelectedTab(props.value);
+    }, [props.value])
     return (
         <div className="tabSelectContainer">
             {props.values.map((value, i) => {
