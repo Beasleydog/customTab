@@ -1,6 +1,4 @@
 async function imagesFromGooglePhotosAlbums(urls, callback) {
-    console.log("getting images");
-    console.log(urls);
     const results = [];
     let ids = urls.filter((url) => {
         let test = url.match(albumUrlRegex);
@@ -14,9 +12,7 @@ async function imagesFromGooglePhotosAlbums(urls, callback) {
         urls.urls.forEach(x => {
             results.push(x);
         });
-        console.log("got album data", urls.urls);
     };
-    console.log(results);
     callback(results);
 }
 

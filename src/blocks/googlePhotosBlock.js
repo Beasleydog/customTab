@@ -9,7 +9,6 @@ export default function GooglePhotosBlock(props) {
     useEffect(() => {
 
         (async () => {
-            console.log(getStoredValue(`${props.id}.albumUrls`), props.albumUrls.map((x) => x.value))
 
             let storedPhotos = getStoredValue(`${props.id}.photos`);
 
@@ -29,7 +28,6 @@ export default function GooglePhotosBlock(props) {
                 }
 
                 //Store a random picture from the album in storage, so we can display it next time
-                console.log(storedPhotos);
                 setStoredValue(`${props.id}.nextPicture`, await imageToDataUrl(storedPhotos[Math.floor(Math.random() * storedPhotos.length)]));
             } else {
                 //No photos have been stored for this block, do this now! (or its just from an old ablum)
@@ -44,9 +42,7 @@ export default function GooglePhotosBlock(props) {
 
 
     function getLatestPhotos() {
-        console.log(props);
         chrome.runtime.sendMessage({ type: "blockMessage", data: { blockType: "googlePhotosBlock", request: "getAlbumPhotos", albumUrls: props.albumUrls.map((x) => x.value) } }, async (response) => {
-            console.log(response);
             setStoredValue(`${props.id}.photos`, JSON.stringify(response));
             setStoredValue(`${props.id}.albumUrls`, JSON.stringify(props.albumUrls.map((x) => x.value)));
             setImageURL(response[Math.floor(Math.random() * response.length)]);

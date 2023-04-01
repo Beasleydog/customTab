@@ -15,32 +15,24 @@ import Background from '../components/background/background';
 import { getAllSettings } from '../helpers/functions/settingFunctions';
 import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFunctions';
 import Button from '../components/button/button';
-import RenderBlocker from '../components/renderBlocker/renderBlocker';
 import pxToInt from '../helpers/functions/pxToInt';
 import useEventListener from '../helpers/functions/useEventListener';
-import { createNewBlock } from '../helpers/functions/BlockAPI';
-import rerenderTab from '../helpers/functions/rerenderTab';
+import { createNewBlock, useAllBlocks } from '../helpers/functions/BlockAPI';
 const FIRST_RUN = localStorage.getItem("firstRun") == undefined;
 if (FIRST_RUN) {
   setDefaultBackgroundSettings();
 }
 
 function NewTab() {
-  const [userBlocks, setBlocks] = useState(getBlocks());
   const [background, setBackground] = useState(getBackground());
   const [editing, setEditing] = useState(false);
+
+  const userBlocks = useAllBlocks();
+
   window.background = background;
 
-  useEventListener("rerenderTab", () => {
-    //Update blocks if they were changed in another tab or a change has occured in settings
-    setBlocks(getBlocks());
-  }, document);
 
   useEffect(() => {
-    //Run on page load to get user's blocks
-    setBlocks(getBlocks());
-
-
     //Ensure the background is set to atleast the default values
     if (!background) {
       //Background has never been set before
@@ -53,67 +45,9 @@ function NewTab() {
         addNewBlock("timeBlock");
       }, 10);
     }
+
   }, []);
 
-  useEffect(() => {
-    //Update all blocks to make sure they have their newest version of settings
-    let newBlocks = userBlocks;
-    newBlocks = newBlocks.map((block) => {
-      block.blockProps = updateToLatestSettings(getAllSettings(blocksMap[block.kind].settingPages), block.blockProps);
-      return block;
-    });
-    setBlocks(newBlocks);
-    updateBlocks(newBlocks);
-  }, []);
-
-  function updateBlockSize(e, direction, ref, delta, position) {
-    setBlocks(userBlocks.map((block) => {
-      if (block.id === this.id) {
-        //Found the block that was resized in storage!
-
-        block.dragProps.width = ref.style.width;
-        block.dragProps.height = ref.style.height;
-        block.dragProps.x = position.x;
-        block.dragProps.y = position.y;
-      }
-      return block;
-    }));
-
-    //Update new blocks in storage
-    updateBlocks(userBlocks);
-  }
-
-  function updateBlockPosition(e, d) {
-    setBlocks(userBlocks.map((block) => {
-      if (block.id === this.id) {
-        //Found the block that was resized in storage!
-
-        block.dragProps.x = d.x;
-        block.dragProps.y = d.y;
-      }
-      return block;
-    }));
-
-    //Update new blocks in storage
-    updateBlocks(userBlocks);
-  }
-
-  function deleteBlock(id) {
-    //Selected block was deleted, make sure to remove selected
-    setActiveBlock(null, id);
-
-    let newList = userBlocks.filter((block) => {
-      return block.id !== id;
-    });
-
-    //Update new blocks in storage
-    updateBlocks(newList);
-
-    //Delete all stored values for the block
-    deleteStoredValues(id);
-
-    setBlocks(newList);
-  }
 
   const [interactingWithBlock, setInteractState] = useState(false);
   const [activeBlock, updateActiveBlock] = useState(null);
@@ -139,14 +73,19 @@ function NewTab() {
     }
   }
 
+  useEventListener("mouseup", () => {
+    setActiveBlock(null, activeBlock);
+  });
+
   if (background) {
     window.themeColor = background.themeColor;
   }
 
   return (
     <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+      {activeBlock}
       {userBlocks.map((block, i) => {
-        return (<RenderBlock key={i} block={block} updateBlockSize={updateBlockSize} updateBlockPosition={updateBlockPosition} deleteBlock={deleteBlock} setActiveBlock={setActiveBlock} activeBlock={activeBlock} background={background} editing={editing} />)
+        return (<RenderBlock id={block.id} setActiveBlock={setActiveBlock} activeBlock={activeBlock} background={background} editing={editing} />)
       })}
 
       <div id="addContainer">
@@ -206,25 +145,27 @@ function NewTab() {
 
 function addNewBlock(kind, props) {
   createNewBlock(kind, props);
-  rerenderTab();
 }
 
 
 
-function RenderBlock({ block, updateBlockSize, updateBlockPosition, deleteBlock, setActiveBlock, activeBlock, background, editing }) {
-  const [hovered, setHovered] = useState(false);
+function RenderBlock({ id, setActiveBlock, activeBlock, editing }) {
   return (
-    <BlockContainer editing={editing} block={block} id={block.id}
-      onMouseOver={() => {
-        setHovered(true); setActiveBlock(block.id)
-      }} onMouseLeave={() => {
-        setActiveBlock(null, block.id)
-      }} deleteBlock={() => {
-        deleteBlock(block.id)
-      }} focusedAndEditing={editing && activeBlock === block.id}>
+    <>
+      <BlockContainer editing={editing} id={id}
+        onMouseOver={() => {
+          setActiveBlock(id)
+        }}
+        onDelete={() => {
+          setActiveBlock(null, id)
+        }}
+        // onMouseLeave={() => {
+        //   setActiveBlock(null, id)
+        // }} 
+        focusedAndEditing={editing && activeBlock === id}>
 
-    </BlockContainer>
-
+      </BlockContainer>
+    </>
   )
 }
 

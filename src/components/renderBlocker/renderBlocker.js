@@ -6,7 +6,6 @@ import { realBlockFromJSON } from '../../helpers/functions/BlockAPI';
 
 function RenderBlocker(props) {
     const [hovered, setHovered] = useState(false);
-    console.log(props);
     return (
         props.block && (!hovered || props.editing)
             ?

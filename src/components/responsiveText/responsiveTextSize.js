@@ -14,20 +14,15 @@ export function ResponsiveText(props) {
 
     useEffect(() => {
         if (lastProp == JSON.stringify(props)) return;
-        console.log(props);
         setLastProp(JSON.stringify(props));
         if (props.children == undefined) return;
 
-        console.log("text changed, resize");
-        console.log(props);
-        console.log(1);
 
         setFontSize(1000);
         setStep(0);
     }, [props]);
 
     useEffect(() => {
-        console.log("doing step ", step);
         setTimeout(() => {
             if (!parent.current.children[0]) return;
             let child = parent.current.children[0];
