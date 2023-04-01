@@ -8,6 +8,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    display:flex;
+    flex-direction: column;
+}
+.subtext{
+    font-size: 8px;
+    color: black;
+    margin-top: 2px;
+    color:rgba(30,30,30,1);
+    font-weight: bold;
 }
 .WHITE_BACK_BLACK_BORDER{
     background:white !important;

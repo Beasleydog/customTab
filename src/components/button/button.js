@@ -14,10 +14,11 @@ function Button(props) {
             }}>
             {props.icon ?
                 <img draggable="false" style={{
-                    width: (props.size * (12 / 30) || 12),
-                    height: (props.size * (12 / 30) || 12)
+                    width: (props.size * (12 / 30) * (props.subtext ? .9 : 1) || 12),
+                    height: (props.size * (12 / 30) * (props.subtext ? .9 : 1) || 12)
                 }} src={props.icon} alt="Icon" />
                 : props.children}
+            {props.subtext && <span className="subtext">{props.subtext}</span>}
         </button>
     )
 }

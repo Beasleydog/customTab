@@ -11,7 +11,7 @@ import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFun
 import Button from '../components/button/button';
 import useEventListener from '../helpers/functions/useEventListener';
 import { createNewBlock, useAllBlocks } from '../helpers/functions/BlockAPI';
-
+import FadeIn from '../components/fadeIn/fadeIn';
 const FIRST_RUN = localStorage.getItem("firstRun") == undefined;
 if (FIRST_RUN) {
   setDefaultBackgroundSettings();
@@ -45,7 +45,8 @@ function NewTab() {
   }, []);
 
   useEventListener("mousedown", (e) => {
-    if (e.target.classList.contains("backgroundElement")) {
+    console.log(e.target, e.target.id);
+    if (e.target.id === "backgroundFade") {
       setFocusedBlock(null);
     }
   });
@@ -55,63 +56,62 @@ function NewTab() {
   }
 
   return (
-    <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+    <div style={{
+      width: "100%", height: "100%", overflow: "hidden",
+    }}>
+      <FadeIn id="backgroundFade">
+        {userBlocks.map((block, i) => {
+          return (<RenderBlock id={block.id} setFocusedBlock={setFocusedBlock} editing={editing} focused={block.id == focusedBlock} background={background} />)
+        })}
 
-      {userBlocks.map((block, i) => {
-        return (<RenderBlock id={block.id} setFocusedBlock={setFocusedBlock} editing={editing} focused={block.id == focusedBlock} background={background} />)
-      })}
+        <div id="addContainer">
+          {/* If in editing mode, render the dropdown to add a new block */}
+          {editing ? (
+            <>
+              <Button type="WHITE_BACK_BLACK_BORDER" onClick={() => { openPopup(<BackgroundSettings />, { width: "40%" }) }} size={50} icon="/assets/paint.svg" subtext="Theme" />
+              <Dropdown items={
+                [
+                  {
+                    text: "Time Block",
+                    onClick: () => { addNewBlock("timeBlock") }
+                  },
+                  {
+                    text: "Google Photos Block",
+                    onClick: () => { addNewBlock("googlePhotosBlock") }
+                  },
+                  {
+                    text: "RemNote Queue Block",
+                    onClick: () => { addNewBlock("remnoteQueueBlock") }
+                  },
+                  {
+                    text: "Google Calendar Block",
+                    onClick: () => { addNewBlock("googleCalendarBlock") }
+                  },
+                  {
+                    text: "Text Area Block",
+                    onClick: () => { addNewBlock("textAreaBlock") }
+                  },
+                  {
+                    text: "Weather Block",
+                    onClick: () => { addNewBlock("weatherBlock") }
+                  },
+                ]
+              } >
+                <Button type="WHITE_BACK_BLACK_BORDER" size={50} icon="/assets/plus.svg" subtext="Add" />
 
-      <div id="addContainer">
-        {/* If in editing mode, render the dropdown to add a new block */}
-        {editing ? (
-          <>
-            <Button onClick={() => { openPopup(<BackgroundSettings />, { width: "40%" }) }} type="WHITE_BACK_BLACK_BORDER" size={50} >
-              Theme
-            </Button>
-            <Dropdown items={
-              [
-                {
-                  text: "Time Block",
-                  onClick: () => { addNewBlock("timeBlock") }
-                },
-                {
-                  text: "Google Photos Block",
-                  onClick: () => { addNewBlock("googlePhotosBlock") }
-                },
-                {
-                  text: "RemNote Queue Block",
-                  onClick: () => { addNewBlock("remnoteQueueBlock") }
-                },
-                {
-                  text: "Google Calendar Block",
-                  onClick: () => { addNewBlock("googleCalendarBlock") }
-                },
-                {
-                  text: "Text Area Block",
-                  onClick: () => { addNewBlock("textAreaBlock") }
-                },
-                {
-                  text: "Weather Block",
-                  onClick: () => { addNewBlock("weatherBlock") }
-                },
-              ]
-            } >
-              <Button type="WHITE_BACK_BLACK_BORDER" size={50} >
-                Add
-              </Button>
+              </Dropdown>
 
-            </Dropdown>
+              <Button type="WHITE_BACK_BLACK_BORDER" size={50} onClick={() => { setEditing(!editing) }} icon="/assets/eye.svg" subtext="View" />
+            </>) : (
+            // Otherwise render the button to start editing
+            <Button type="WHITE_BACK_BLACK_BORDER" size={50} onClick={() => { setEditing(!editing) }} icon="/assets/edit.svg" subtext="Edit" />
+          )
+          }
 
-            <Button type="WHITE_BACK_BLACK_BORDER" size={50} onClick={() => { setEditing(!editing) }} icon="/assets/close.svg" />
-          </>) : (
-          // Otherwise render the button to start editing
-          <Button type="WHITE_BACK_BLACK_BORDER" size={50} onClick={() => { setEditing(!editing) }} icon="/assets/edit.svg" />
-        )
-        }
-
-      </div>
-
+        </div>
+      </FadeIn>
       <Background />
+
     </div >
   );
 }

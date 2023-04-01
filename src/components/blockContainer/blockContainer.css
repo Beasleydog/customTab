@@ -6,7 +6,7 @@
 #blockButtonContainer{
     position:absolute;
     top:5px;
-    right:15px;
+    right:5px;
 
     display:flex;
     flex-direction: row;

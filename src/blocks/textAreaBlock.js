@@ -30,7 +30,7 @@ export default function TextAreaBlock(props) {
                     background: window.themeColor,
                 }),
                 ...(props.themeColoring == "text" && {
-                    background: textColorFromBackground(window.themeColor),
+                    background: (window.background.blockBackgroundStyle == "color" ? window.background.blockBackgroundColor : textColorFromBackground(window.themeColor)),
                     color: window.themeColor,
                 })
 

@@ -66,73 +66,10 @@ const blocksMap = {
                                 isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
                                 humanName: "Show Seconds"
                             },
-                            test: {
-                                default: "one",
-                                values: [{
-                                    value: "One",
-                                    id: "one"
-                                },
-                                {
-                                    value: "Two",
-                                    id: "two"
-                                },
-                                {
-                                    value: "Three",
-                                    id: "three"
-                                }],
-                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                                type: "Dropdown",
-                                humanName: "Test",
-                            },
                         }
                     },
-                    {
-                        humanName: "Second Section",
-                        type: "section",
-                        condition: {
-                            showAmPm: true
-                        },
-                        settings: {
-                            test2: {
-                                default: "one",
-                                values: [{
-                                    value: "One",
-                                    id: "one"
-                                },
-                                {
-                                    value: "Two",
-                                    id: "two"
-                                },
-                                {
-                                    value: "Three",
-                                    id: "three"
-                                }],
-                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                                type: "Dropdown",
-                                humanName: "Test2",
-                            },
-                        }
-                    }
                 ]
             },
-            other: {
-                icon: "/assets/pencil.svg",
-                humanName: "Other Settings",
-                sections: [
-                    {
-                        humanName: "Other First Section",
-                        type: "section",
-                        settings: {
-                            randomBoolean: {
-                                default: true,
-                                type: "Boolean",
-                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                                humanName: "Rand Boolean",
-                            },
-                        }
-                    }
-                ]
-            }
         },
         humanName: "Time Block",
         lockAspectRatio: true,
