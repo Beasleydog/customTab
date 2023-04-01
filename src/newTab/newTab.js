@@ -1,23 +1,17 @@
 /* global chrome */
 
 import React, { useState, useEffect } from 'react';
-import { Rnd } from 'react-rnd';
-import blocksMap from '../blocks/blocksMap';
 import Dropdown from '../components/dropdown/dropdown';
-import { getBlocks, updateBlocks, getBackground, deleteStoredValues } from '../helpers/functions/storage';
+import { getBackground } from '../helpers/functions/storage';
 import openPopup from '../helpers/functions/openPopup';
 import { BlockContainer } from '../components/blockContainer/blockContainer';
-import { blockKindToComponent, getBlockHumanName } from '../helpers/functions/blockFunctions';
-import useInterval from '../helpers/functions/useInterval';
 import { BackgroundSettings } from '../components/backgroundSettings/backgroundSettings';
-import updateToLatestSettings from '../helpers/functions/updateSettings';
 import Background from '../components/background/background';
-import { getAllSettings } from '../helpers/functions/settingFunctions';
 import { setDefaultBackgroundSettings } from '../helpers/functions/backgroundFunctions';
 import Button from '../components/button/button';
-import pxToInt from '../helpers/functions/pxToInt';
 import useEventListener from '../helpers/functions/useEventListener';
 import { createNewBlock, useAllBlocks } from '../helpers/functions/BlockAPI';
+
 const FIRST_RUN = localStorage.getItem("firstRun") == undefined;
 if (FIRST_RUN) {
   setDefaultBackgroundSettings();
@@ -28,6 +22,8 @@ function NewTab() {
   const [editing, setEditing] = useState(false);
 
   const userBlocks = useAllBlocks();
+
+  const [focusedBlock, setFocusedBlock] = useState(null);
 
   window.background = background;
 
@@ -48,33 +44,10 @@ function NewTab() {
 
   }, []);
 
-
-  const [interactingWithBlock, setInteractState] = useState(false);
-  const [activeBlock, updateActiveBlock] = useState(null);
-
-  function setActiveBlock(id, callerBlock) {
-    if (!editing) return;
-
-    if (id) {
-      //Setting a new active block
-
-      if (interactingWithBlock) return
-
-      setInteractState(true);
-      updateActiveBlock(id);
-    } else {
-      //Removing active block
-
-      //Only the current active block can make itself not active
-      if (callerBlock !== activeBlock) return
-
-      setInteractState(false);
-      updateActiveBlock(null);
+  useEventListener("mousedown", (e) => {
+    if (e.target.classList.contains("backgroundElement")) {
+      setFocusedBlock(null);
     }
-  }
-
-  useEventListener("mouseup", () => {
-    setActiveBlock(null, activeBlock);
   });
 
   if (background) {
@@ -83,9 +56,9 @@ function NewTab() {
 
   return (
     <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
-      {activeBlock}
+
       {userBlocks.map((block, i) => {
-        return (<RenderBlock id={block.id} setActiveBlock={setActiveBlock} activeBlock={activeBlock} background={background} editing={editing} />)
+        return (<RenderBlock id={block.id} setFocusedBlock={setFocusedBlock} editing={editing} focused={block.id == focusedBlock} background={background} />)
       })}
 
       <div id="addContainer">
@@ -149,20 +122,17 @@ function addNewBlock(kind, props) {
 
 
 
-function RenderBlock({ id, setActiveBlock, activeBlock, editing }) {
+function RenderBlock({ id, setFocusedBlock, focused, editing }) {
   return (
     <>
       <BlockContainer editing={editing} id={id}
-        onMouseOver={() => {
-          setActiveBlock(id)
+        onMouseDown={() => {
+          setFocusedBlock(id);
         }}
         onDelete={() => {
-          setActiveBlock(null, id)
+          setFocusedBlock(null)
         }}
-        // onMouseLeave={() => {
-        //   setActiveBlock(null, id)
-        // }} 
-        focusedAndEditing={editing && activeBlock === id}>
+        focusedAndEditing={focused && editing}>
 
       </BlockContainer>
     </>

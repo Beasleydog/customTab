@@ -1,7 +1,5 @@
 /* global chrome */
 import React, { useState, useEffect, useRef } from "react";
-import { getStoredValue, setStoredValue } from "../helpers/functions/storage";
-import { ReactFitty } from "react-fitty";
 import Loader from "../components/loader/loader";
 import { ResponsiveText } from "../components/responsiveText/responsiveTextSize";
 export default function WeatherBlock(props) {

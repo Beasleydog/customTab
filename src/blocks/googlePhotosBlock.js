@@ -5,10 +5,9 @@ import { getStoredValue, setStoredValue } from '../helpers/functions/storage';
 import imageToDataUrl from '../helpers/functions/imageToDataUrl';
 export default function GooglePhotosBlock(props) {
     const [imageURL, setImageURL] = useState('');
-
     useEffect(() => {
-
         (async () => {
+            console.log(props);
 
             let storedPhotos = getStoredValue(`${props.id}.photos`);
 
@@ -18,15 +17,17 @@ export default function GooglePhotosBlock(props) {
                 JSON.stringify(getStoredValue(`${props.id}.albumUrls`)) === JSON.stringify(props.albumUrls.map((x) => x.value))
             ) {
                 //We got images, and they are from the correct albums that are set in settings
+                if (imageURL === '') {
+                    //We don't already have an image being shown, so choose one to display.
 
-                if (getStoredValue(`${props.id}.nextPicture`)) {
-                    //We already have a dataurl to display next
-                    setImageURL(getStoredValue(`${props.id}.nextPicture`))
-                } else {
-                    //No next photo in storage. This should never happen, maybe somebody messing with local storage? 🤔🤔🤔
-                    setImageURL(storedPhotos[Math.floor(Math.random() * storedPhotos.length)]);
+                    if (getStoredValue(`${props.id}.nextPicture`)) {
+                        //We already have a dataurl to display next
+                        setImageURL(getStoredValue(`${props.id}.nextPicture`))
+                    } else {
+                        //No next photo in storage. This should never happen, maybe somebody messing with local storage? 🤔🤔🤔
+                        setImageURL(storedPhotos[Math.floor(Math.random() * storedPhotos.length)]);
+                    }
                 }
-
                 //Store a random picture from the album in storage, so we can display it next time
                 setStoredValue(`${props.id}.nextPicture`, await imageToDataUrl(storedPhotos[Math.floor(Math.random() * storedPhotos.length)]));
             } else {

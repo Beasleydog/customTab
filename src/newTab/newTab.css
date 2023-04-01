@@ -76,20 +76,15 @@
 }
 
 .block--editing {
-  /* box-shadow: rgba(0, 0, 0,10%) 0px 0px 2px;
-    background: rgba(255,255,255,20%);
-    backdrop-filter: blur(6px);
-    border-radius: 5px;
-
-    background: rgba(255, 255, 255, 0.766);
-    backdrop-filter: blur(10px); */
+  transition: filter .1s;
 }
 .block--editing:hover {
-  border: white solid;
+  filter:drop-shadow(0px 0px 20px rgba(0, 0, 0, 10%)) drop-shadow(0px 2px 4px #00000040);
 }
 .block--focused {
   box-shadow: rgba(0, 0, 0, 80%) 0px 0px 2px,
     inset rgba(0, 0, 0, 80%) 0px 0px 2px;
+  border: white solid !important;
 }
 
 .resizeBox {

@@ -7,7 +7,7 @@ import { Rnd } from 'react-rnd';
 import { blockKindToComponent } from '../../helpers/functions/blockFunctions';
 import RenderBlocker from '../renderBlocker/renderBlocker';
 import { realBlockFromJSON, useSpecificBlock } from "../../helpers/functions/BlockAPI";
-function BlockContainer({ id, focusedAndEditing, onMouseOver, onMouseLeave, editing, onDelete }) {
+function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete }) {
     const block = useSpecificBlock(id);
 
     return (
@@ -17,8 +17,7 @@ function BlockContainer({ id, focusedAndEditing, onMouseOver, onMouseLeave, edit
                     ?
                     <Rnd
                         bounds="window"
-                        onMouseEnter={onMouseOver}
-                        onMouseLeave={onMouseLeave}
+                        onMouseDown={onMouseDown}
 
                         className={`block ${editing && "block--editing"} ${focusedAndEditing && "block--focused"} ${window.background.blockBackgroundStyle === "glass" && "block--glass"} ${window.background.blockBackgroundStyle === "transparent" && "block--transparent"}`}
                         style={{

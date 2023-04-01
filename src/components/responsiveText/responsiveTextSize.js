@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
+import useInterval from "../../helpers/functions/useInterval";
 import useStateCallback from "../../helpers/functions/useStateCallback";
 const WidthContext = React.createContext(0);
 
@@ -10,6 +11,22 @@ export function ResponsiveText(props) {
     const [step, setStep] = useState(0);
     const [lastProp, setLastProp] = useState("{}");
     const parent = useRef(null);
+
+
+    //TODO: Enabling the following code makes text realtime resize
+    //However, this makes the text flicker quite a bit due to the janky nature how we calculate the correct font size
+    //Maybe fix this by making it resize on a offscreen element and then copying the font size to the actual element?
+
+    // useEffect(() => {
+    //     if (!parent.current) return; // wait for the parent to be available
+    //     const resizeObserver = new ResizeObserver(() => {
+    //         // Do what you want to do when the size of the element changes
+    //         setFontSize(1000);
+    //         setStep(0);
+    //     });
+    //     resizeObserver.observe(parent.current);
+    //     return () => resizeObserver.disconnect(); // clean up
+    // }, []);
 
 
     useEffect(() => {
@@ -24,7 +41,9 @@ export function ResponsiveText(props) {
 
     useEffect(() => {
         setTimeout(() => {
+            if (!parent.current) return;
             if (!parent.current.children[0]) return;
+
             let child = parent.current.children[0];
             let parentEl = parent.current;
 

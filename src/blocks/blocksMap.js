@@ -44,7 +44,7 @@ const hoverToLoadSettings = {
 const blocksMap = {
     'timeBlock': {
         block: Blocks.TimeBlock,
-        defaultSizes: { width: "1100px", height: "232px" },
+        defaultSizes: { width: 1100, height: 232 },
         settingPages: {
             main: {
                 icon: "/assets/pencil.svg",
@@ -140,7 +140,7 @@ const blocksMap = {
     'googlePhotosBlock': {
         block: Blocks.GooglePhotosBlock,
         humanName: "Google Photos Block",
-        defaultSizes: { width: "200px", height: "200px" },
+        defaultSizes: { width: 200, height: 200 },
         settingPages: {
             albums: {
                 icon: "/assets/pencil.svg",
@@ -182,7 +182,7 @@ const blocksMap = {
     "remnoteQueueBlock": {
         block: Blocks.RemNoteQueueBlock,
         humanName: "RemNote Queue Block",
-        defaultSizes: { width: "400px", height: "400px" },
+        defaultSizes: { width: 400, height: 400 },
         settingPages: {
             main: {
                 icon: "/assets/pencil.svg",
@@ -224,7 +224,7 @@ const blocksMap = {
     'googleCalendarBlock': {
         block: Blocks.GoogleCalendarBlock,
         humanName: "Google Calendar Block",
-        defaultSizes: { width: "200px", height: "400px" },
+        defaultSizes: { width: 200, height: 400 },
         settingPages: {
             calendarSettings: {
                 icon: "/assets/pencil.svg",
@@ -276,7 +276,7 @@ const blocksMap = {
     "textAreaBlock": {
         block: Blocks.TextAreaBlock,
         humanName: "Text Block",
-        defaultSizes: { width: "200px", height: "200px" },
+        defaultSizes: { width: 200, height: 200 },
         settingPages: {
             display: {
                 icon: "/assets/pencil.svg",
@@ -309,7 +309,7 @@ const blocksMap = {
     "weatherBlock": {
         block: Blocks.WeatherBlock,
         humanName: "Weather Block",
-        defaultSizes: { width: "150px", height: "90px" },
+        defaultSizes: { width: 150, height: 90 },
         lockAspectRatio: true,
         settingPages: {}
     }

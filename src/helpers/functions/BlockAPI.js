@@ -1,10 +1,8 @@
-import blocksMap from "../../blocks/blocksMap";
-import pxToInt from "./pxToInt";
 import { getBlocks, updateBlocks, getBlockById, deleteStoredValues } from "./storage";
 import { getAllSettings, getSettingDefaultInfo } from "./settingFunctions";
 import React, { useEffect, useState, useRef } from "react";
-import rerenderTab from "./rerenderTab";
 import updateToLatestSettings from "./updateSettings";
+import blocksMap from "../../blocks/blocksMap";
 function createNewBlock(kind, props) {
     let newBlock = new Block(kind, props);
     console.log(JSON.stringify(newBlock));
@@ -53,7 +51,7 @@ function useSpecificBlock(id, staySynced) {
     }
     const getBlockToSet = () => {
         let temp = (getBlockById(id) ? realBlockFromJSON(getBlockById(id)) : null);
-        temp.setStateChangeCallback(stateChange);
+        if (temp) temp.setStateChangeCallback(stateChange);
         return temp;
     }
 
@@ -82,8 +80,8 @@ function Block(kind, props) {
     if (kind) {
         this.kind = kind;
         this.dragProps = {
-            x: window.innerWidth / 2 - pxToInt(blocksMap[kind].defaultSizes.width) / 2,
-            y: window.innerHeight / 2 - pxToInt(blocksMap[kind].defaultSizes.height) / 2,
+            x: window.innerWidth / 2 - (blocksMap[kind].defaultSizes.width) / 2,
+            y: window.innerHeight / 2 - (blocksMap[kind].defaultSizes.height) / 2,
             width: blocksMap[kind].defaultSizes.width,
             height: blocksMap[kind].defaultSizes.height,
             ...blocksMap[kind].defaultSizes
