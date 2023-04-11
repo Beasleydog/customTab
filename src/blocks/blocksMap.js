@@ -120,6 +120,9 @@ const blocksMap = {
         block: Blocks.RemNoteQueueBlock,
         humanName: "RemNote Queue Block",
         defaultSizes: { width: 400, height: 400 },
+        attributes: {
+            hideContentWhileEdit: true,
+        },
         settingPages: {
             main: {
                 icon: "/assets/pencil.svg",
@@ -162,6 +165,9 @@ const blocksMap = {
         block: Blocks.GoogleCalendarBlock,
         humanName: "Google Calendar Block",
         defaultSizes: { width: 200, height: 400 },
+        attributes: {
+            hideContentWhileEdit: true,
+        },
         settingPages: {
             calendarSettings: {
                 icon: "/assets/pencil.svg",
@@ -180,31 +186,7 @@ const blocksMap = {
                             }
                         }
                     },
-                    {
-                        humanName: "Calendar View",
-                        type: "section",
-                        settings: {
-                            calendarView: {
-                                default: "day",
-                                values: [{
-                                    value: "Day",
-                                    id: "day"
-                                },
-                                {
-                                    value: "Week",
-                                    id: "week"
-                                },
-                                {
-                                    value: "Month",
-                                    id: "month"
-                                }
-                                ],
-                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                                type: "Dropdown",
-                                humanName: "Calendar View",
-                            }
-                        }
-                    }
+
                 ]
             },
             ...hoverToLoadSettings

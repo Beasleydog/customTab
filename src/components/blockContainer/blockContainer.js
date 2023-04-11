@@ -65,7 +65,7 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                             topLeft: <Handle />
                         }}
                     >
-                        <RenderBlocker editing={editing} block={block.blockProps.hoverToLoad} humanName={realBlockFromJSON(block).getBlockHumanName()}>
+                        <RenderBlocker editing={editing} block={block.blockProps.hoverToLoad || (block.blockProps.hideContentWhileEdit && editing)} humanName={realBlockFromJSON(block).getBlockHumanName()}>
                             {
                                 blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.width, id: block.id, editMode: true, backgroundTheme: window.background.themeColor, ...block.blockProps })
                             }

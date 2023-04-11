@@ -25,6 +25,7 @@
       "matches": ["https://calendar.google.com/calendar/u/0/embed*"],
       "include_globs": ["*#focusMain*"],
       "css": ["/contentScripts/googleCalendar/focusMainContent.css"],
+      "js": ["/contentScripts/googleCalendar/focusMainContent.js"],
       "run_at": "document_start",
       "all_frames": true
     }

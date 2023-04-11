@@ -1,5 +1,5 @@
 import settingValidCheck from "../helpers/functions/settingValidCheck.js"
-
+import PATTERN_OPTIONS from "./patternOptions.js";
 const rainbowColor = ` background: linear-gradient(90deg,rgba(255, 0, 0, 1) 0%,rgba(255, 154, 0, 1) 10%,rgba(208, 222, 33, 1) 20%,rgba(79, 220, 74, 1) 30%,rgba(63, 218, 216, 1) 40%,rgba(47, 201, 226, 1) 50%,rgba(28, 127, 238, 1) 60%,rgba(95, 21, 242, 1) 70%,rgba(186, 12, 248, 1) 80%,rgba(251, 7, 217, 1) 90%,rgba(255, 0, 0, 1) 100%)`
 
 
@@ -92,11 +92,46 @@ const settingPages = {
                         humanName: "Darken Image"
                     },
                 }
-            }
+            },
+            {
+                type: "section",
+                humanName: "Pattern Details",
+                condition: {
+                    pageBackgroundMode: "pattern"
+                },
+                settings: {
+                    patternType: {
+                        condition: { pageBackgroundMode: "pattern" },
+                        humanName: "Pattern Type",
+                        default: "random",
+                        type: "Dropdown",
+                        values: [
+                            {
+                                value: "Random",
+                                id: "random"
+                            },
+                            ...(PATTERN_OPTIONS.map((pattern) => {
+                                return {
+                                    value: pattern.name,
+                                    id: pattern.id
+                                }
+                            }))
+                        ],
+                        isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
+
+                    },
+                    patternColor: {
+                        condition: { pageBackgroundMode: "pattern" },
+                        default: "#000000",
+                        isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
+                        type: "ColorSelect",
+                        humanName: "Pattern Color"
+
+                    }
+                }
+            },
         ]
     },
-
-
     blocks: {
         icon: "/assets/pencil.svg",
         humanName: "Block Settings",

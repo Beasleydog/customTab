@@ -26,7 +26,6 @@ function BlockSettings(props) {
 
             settingChanged={(setting, value) => {
                 block.updateBlockSetting(setting, value);
-                // rerenderTab();
             }}
 
             displayComponent={

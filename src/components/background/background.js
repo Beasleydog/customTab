@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './background.css';
-import { getBackground } from '../../helpers/functions/storage';
-import useInterval from '../../helpers/functions/useInterval';
 import { getStoredValue, setStoredValue } from '../../helpers/functions/storage'
-import { setDefaultBackgroundSettings } from '../../helpers/functions/backgroundFunctions';
+import UseBackground from '../../background/BackgroundAPI';
+// import * as GeoPattern from "geopattern"
 function Background(props) {
-    const [background, setBackground] = useState(getBackground());
+    const [background] = UseBackground()
+
     const [BackgroundElement, setBackgroundElement] = useState(<div />);
 
-
-
-    useInterval(() => {
-        setBackground(getBackground());
-    }, 1000);
 
     useEffect(() => {
         (async () => {
@@ -23,6 +18,8 @@ function Background(props) {
                 case "image":
                     setBackgroundElement(<UnsplashPhoto type="background" unsplashQuery={background.unsplashQuery} blur={background.blurImage} darken={background.darkenImage} />);
                     break;
+                case "pattern":
+                    setBackgroundElement(<Pattern patternType={background.patternType} patternColor={background.patternColor} />);
                 default:
                     break;
             }
@@ -35,7 +32,27 @@ function Background(props) {
         </div>
     )
 }
+function Pattern(props) {
+    const [pattern, setPattern] = useState(window.GeoPattern.generate(
+        Math.random() + "",
+        {
+            ...(props.patternType !== "random" && { generator: props.patternType }),
+            color: props.patternColor
+        }
+    ).toDataUrl());
 
+    return (
+        <>
+            {/* GeoPattern colors the patterns with the theme color but also a lot of whiter colors
+            Add a layer of the theme color with 80% opacity overtop to make it look better  */}
+            <div style={{ width: "100vw", height: "100vh", background: props.patternColor + "CC" }} />
+
+            <div className="backgroundElement backgroundPattern" style={{
+                background: pattern
+            }} />
+        </>
+    )
+}
 function UnsplashPhoto(props) {
     const [preloadPhotoURL, setPreloadPhotoURL] = useState(undefined);
     const [initialURL, setInitialURL] = useState("");

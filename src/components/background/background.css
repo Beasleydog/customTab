@@ -26,3 +26,6 @@
 .darken{
     filter:darken(0.8);
 }
+.backgroundPattern{
+    filter:blur(2px);
+}

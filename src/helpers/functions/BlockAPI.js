@@ -87,7 +87,8 @@ function Block(kind, props) {
             ...blocksMap[kind].defaultSizes
         }
         this.blockProps = {
-            ...props
+            ...props,
+            ...blocksMap[kind].attributes
         }
         this.id = Date.now();
         this.blockVersion = 1;
@@ -169,6 +170,14 @@ function Block(kind, props) {
         Object.keys(json).forEach((key) => {
             this[key] = json[key];
         });
+
+        //Note that attributes are not stored in storage. 
+        //Attributes are facts about the blocks that cannot be changed by the user.
+        this.blockProps = {
+            ...this.blockProps,
+            ...blocksMap[this.kind].attributes
+        }
+
         return this;
     }
 
