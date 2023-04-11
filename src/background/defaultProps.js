@@ -31,10 +31,6 @@ const settingPages = {
                                 value: "Pattern",
                                 id: "pattern",
                             },
-                            {
-                                value: "Ambient",
-                                id: "ambient",
-                            }
                         ],
                         isValidValue: function (valueToCheck) { return settingValidCheck(valueToCheck, this) },
                         humanName: ""
