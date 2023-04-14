@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import "./renderBlocker.css"
 
 import { ResponsiveText } from '../responsiveText/responsiveTextSize';
-import { realBlockFromJSON } from '../../helpers/functions/BlockAPI';
-
 function RenderBlocker(props) {
     const [hovered, setHovered] = useState(false);
     return (

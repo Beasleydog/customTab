@@ -25,8 +25,7 @@ export default function WeatherBlock(props) {
         setRerender(!rerender);
     }, [props]);
     return (
-        <div style={{ width: "100%", height: "100%", padding: "5px", boxSizing: "border-box" }}>
-
+        <div style={{ width: "100%", height: "100%", padding: "5px", boxSizing: "border-box", cursor: (props.editing ? "" : "pointer") }} onClick={() => { if (!props.editing) window.location.replace("https://weather.com/weather/today") }}>
             <Loader loaded={weatherData.status === "success"}>
 
                 <WeatherIconDefinitions />

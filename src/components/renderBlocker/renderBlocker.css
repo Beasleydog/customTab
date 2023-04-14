@@ -1,7 +1,10 @@
+div.block:has(.RenderBlocker){
+  /* We have to target the parent element (the actual dragable block) when bluring the background */
+  backdrop-filter: blur(5px);
+}
 .RenderBlocker {
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(2px);
 
   display: flex;
   flex-direction: column;
@@ -12,12 +15,12 @@
   border-radius: 10px;
 }
 .blockMessage {
-  opacity:.8;
+  /* opacity:.8; */
   width:60%;
   height:20%;
 }
 .blockHumanName{
-    opacity:.8;
+    /* opacity:.8; */
     width:80%;
     height:30%;
   

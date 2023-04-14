@@ -7,7 +7,7 @@ export default function GoogleCalendarBlock(props) {
             height: '100%',
             borderRadius: "10px",
             overflow: "hidden",
-            background: "rgba(255, 255, 255, 10%)"
+            background: "rgba(255, 255, 255)"
         }}>
             {props.calendarAccount != ""
                 ?
