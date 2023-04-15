@@ -35,6 +35,7 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                         onResizeStop={(e, dir, ref, delta, position) => {
                             block.resizeTo(block.dragProps.width + delta.width, block.dragProps.height + delta.height);
                             block.moveTo(position.x, position.y);
+                            block.sync();
                         }}
 
                         onDragStop={(e, d) => {
@@ -67,7 +68,7 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                     >
                         <RenderBlocker width={block.dragProps.width} height={block.dragProps.height} editing={editing} block={block.blockProps.hoverToLoad || (block.blockProps.hideContentWhileEdit && editing)} humanName={realBlockFromJSON(block).getBlockHumanName()}>
                             {
-                                blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.width, id: block.id, editing: editing, backgroundTheme: window.background.themeColor, ...block.blockProps })
+                                blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.height, id: block.id, editing: editing, backgroundTheme: window.background.themeColor, ...block.blockProps })
                             }
                         </RenderBlocker>
 

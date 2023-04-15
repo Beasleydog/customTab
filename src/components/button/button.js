@@ -18,7 +18,9 @@ function Button(props) {
                     height: (props.size * (12 / 30) * (props.subtext ? .9 : 1) || 12)
                 }} src={props.icon} alt="Icon" />
                 : props.children}
-            {props.subtext && <span className="subtext">{props.subtext}</span>}
+            {props.subtext && <span className="subtext" style={{
+                fontSize: (props.size * (12 / 30) * .9 || 12) / 2
+            }}>{props.subtext}</span>}
         </button>
     )
 }

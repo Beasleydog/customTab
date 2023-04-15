@@ -95,6 +95,10 @@ function NewTab() {
                     text: "Weather Block",
                     onClick: () => { addNewBlock("weatherBlock") }
                   },
+                  {
+                    text: "To-Do Block",
+                    onClick: () => { addNewBlock("todoBlock") }
+                  },
                 ]
               } >
                 <Button type="WHITE_BACK_BLACK_BORDER" size={50} icon="/assets/plus.svg" subtext="Add" />

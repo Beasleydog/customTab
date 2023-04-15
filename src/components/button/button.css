@@ -34,3 +34,7 @@
 .WHITE_BACK_BLACK_SHADOW_ON_HOVER:hover{
     box-shadow: rgba(0,0,0,30%) 0px 0px 3px;
 }
+.WHITE_BACK{
+    background:white !important;
+    border:none !important;
+}

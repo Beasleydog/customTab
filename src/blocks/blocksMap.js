@@ -231,6 +231,16 @@ const blocksMap = {
         defaultSizes: { width: 150, height: 90 },
         lockAspectRatio: true,
         settingPages: {}
+    },
+    "todoBlock": {
+        block: Blocks.TodoBlock,
+        attributes: {
+            hideContentWhileEdit: true,
+        },
+        humanName: "Todo Block",
+        defaultSizes: { width: 300, height: 200 },
+        lockAspectRatio: true,
+        settingPages: {}
     }
 }
 
