@@ -54,7 +54,7 @@ export default function TodoBlock(props) {
                         <div style={{ color: "gray", paddingTop: "5%", width: "80%", height: "50%" }}>
                             <ResponsiveText >😊</ResponsiveText>
                         </div>
-                        <div style={{ color: "gray", width: "50%", height: "10%" }}>
+                        <div style={{ color: window.themeColor, width: "50%", height: "10%" }}>
                             <ResponsiveText >You're all caught up</ResponsiveText>
                         </div>
                     </>

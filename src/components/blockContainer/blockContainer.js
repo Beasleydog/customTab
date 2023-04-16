@@ -74,9 +74,12 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
 
                         {
                             focusedAndEditing && <div id="blockButtonContainer">
-                                <Button type="WHITE_BACK_BLACK_BORDER" onClick={() => {
-                                    openPopup(<BlockSettings id={block.id} />)
-                                }} icon="/assets/gear.svg" />
+                                {block.hasSettings()
+                                    &&
+                                    <Button type="WHITE_BACK_BLACK_BORDER" onClick={() => {
+                                        openPopup(<BlockSettings id={block.id} />)
+                                    }} icon="/assets/gear.svg" />
+                                }
                                 <Button type="WHITE_BACK_BLACK_BORDER" onClick={() => {
                                     onDelete();
                                     block.delete();

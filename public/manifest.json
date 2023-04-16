@@ -51,6 +51,9 @@
     "https://calendar.google.com/*",
     "<all_urls>"
   ],
+  "permissions": [
+    "identity.email"
+  ],
   "chrome_url_overrides": {
     "newtab": "index.html"
   }

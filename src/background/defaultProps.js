@@ -179,13 +179,13 @@ const settingPages = {
             },
             {
                 type: "section",
-                humanName: "Theme Color",
+                humanName: "Theme",
                 settings: {
                     themeColor: {
                         default: "#181818",
                         isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
                         type: "ColorSelect",
-                        humanName: "Background Color"
+                        humanName: "Theme Color"
 
                     }
                 }

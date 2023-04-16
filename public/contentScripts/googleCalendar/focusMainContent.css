@@ -18,7 +18,7 @@
     position: relative !important;
     background: none !important;
     display:flex !important;
-    font-size:5vw !important;
+    font-size:4.5vw !important;
 }
 /* .date-label::before{
     content:"" !important;
@@ -47,6 +47,7 @@
 }
 .event{
     margin:0px 1em !important;
+    font-size:2vw;
 }
 .view-container-border{
     background-color:white !important;

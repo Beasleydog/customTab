@@ -152,7 +152,9 @@ function Block(kind, props) {
     this.getSettingGroups = function getSettingGroups() {
         return blocksMap[this.kind].settings.settingGroups;
     }
-
+    this.hasSettings = function hasSettings() {
+        return Object.keys(blocksMap[this.kind].settingPages).length > 0;
+    }
     this.updateBlockInStorage = function updateBlockInStorage(block) {
         let blocks = getBlocks();
         updateBlocks(blocks.map((x) => {
