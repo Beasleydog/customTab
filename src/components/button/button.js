@@ -6,16 +6,21 @@ function Button(props) {
     return (
         <button className={props.type} id="button" onClick={() => { if (!enabled) { return }; if (props.onClick) { props.onClick(); } }}
             style={{
+                ...props.style,
+
                 width: (props.size || 30),
                 height: (props.size || 30),
                 ...(!enabled && {
-                    opacity: 0.5
-                })
+                    opacity: 0.5,
+                }),
+                ...(props.type === "WHITE_BACK_THEME_BORDER" && {
+                    border: `${props.size * (2 / 30)}px solid ${window.themeColor}`,
+                }),
             }}>
             {props.icon ?
                 <img draggable="false" style={{
                     width: (props.size * (12 / 30) * (props.subtext ? .9 : 1) || 12),
-                    height: (props.size * (12 / 30) * (props.subtext ? .9 : 1) || 12)
+                    height: (props.size * (12 / 30) * (props.subtext ? .9 : 1) || 12),
                 }} src={props.icon} alt="Icon" />
                 : props.children}
             {props.subtext && <span className="subtext" style={{

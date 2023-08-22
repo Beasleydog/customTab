@@ -12,17 +12,22 @@ import Button from '../components/button/button';
 import useEventListener from '../helpers/functions/useEventListener';
 import { createNewBlock, useAllBlocks } from '../helpers/functions/BlockAPI';
 import FadeIn from '../components/fadeIn/fadeIn';
+import { clearCache } from '../helpers/functions/CacheAPI';
 const FIRST_RUN = localStorage.getItem("firstRun") == undefined;
 if (FIRST_RUN) {
   setDefaultBackgroundSettings();
 }
 
+window.TAB_ID = Math.round(Math.random() * 1000000);
+window.clearCache = clearCache;
 function NewTab() {
   const [background, setBackground] = useState(getBackground());
   const [editing, setEditing] = useState(false);
 
   const userBlocks = useAllBlocks();
-
+  useEffect(() => {
+    console.log("user blocks just changed now its ", userBlocks);
+  }, [userBlocks]);
   const [focusedBlock, setFocusedBlock] = useState(null);
 
   window.background = background;
@@ -61,7 +66,7 @@ function NewTab() {
     }}>
       <FadeIn id="backgroundFade">
         {userBlocks.map((block, i) => {
-          return (<RenderBlock id={block.id} setFocusedBlock={setFocusedBlock} editing={editing} focused={block.id == focusedBlock} background={background} />)
+          return (<RenderBlock key={i} id={block.id} setFocusedBlock={setFocusedBlock} editing={editing} focused={block.id == focusedBlock} background={background} />)
         })}
 
         <div id="addContainer">
@@ -114,8 +119,9 @@ function NewTab() {
 
         </div>
       </FadeIn>
-      <Background />
-
+      <div style={{ top: 0, left: 0, width: "100vw", height: "100vh", position: "absolute", zIndex: -9 }}>
+        <Background />
+      </div>
     </div >
   );
 }

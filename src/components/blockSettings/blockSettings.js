@@ -13,7 +13,10 @@ function BlockSettings(props) {
     let ref = React.createRef();
     const [displayBlockWidth, setDisplayBlockWidth] = useState(0);
 
+    const scaler = .9;
+
     useEffect(() => {
+        if (displayBlockWidth != 0) return;
         //Set width to width of parent element
         setDisplayBlockWidth(ref.current.offsetWidth)
     }, [ref]);
@@ -29,8 +32,9 @@ function BlockSettings(props) {
             }}
 
             displayComponent={
-                <div ref={ref} id="blockDisplay" style={{
-                    height: `${displayBlockWidth / (block.dragProps.width) * (block.dragProps.height)}px`
+                <div ref={ref} id="blockDisplay" className="block" style={{
+                    height: `${displayBlockWidth * scaler / (block.dragProps.width) * (block.dragProps.height)}px`,
+                    ...(displayBlockWidth != 0 ? { width: `${displayBlockWidth * scaler}px` } : {})
                 }}>
                     {blockKindToComponent(block.kind, { setting: true, second: (new Date()).getSeconds(), ...block.blockProps, id: block.id })}
                 </div>

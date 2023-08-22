@@ -6,9 +6,6 @@
   "icons": {
     "128": "logo128.png"
   },
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": [
@@ -52,9 +49,16 @@
     "<all_urls>"
   ],
   "permissions": [
-    "identity.email"
+    "identity",
+    "identity.email",
+    "storage"
   ],
+  "oauth2": {
+    "client_id": "400242226040-m2h17q4tq0n70ifck84ktd50idmrh6o3.apps.googleusercontent.com",
+    "scopes":["https://www.googleapis.com/auth/photoslibrary"]
+  },
   "chrome_url_overrides": {
     "newtab": "index.html"
-  }
+  },
+  "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jbboSPdaq7KosmV14dJ6y72W9Gzp38Sx557raAB6pQP7kNFX8xFd4JeW6WHf4t6skN8G+VxpnUd5gUiO5pLhwi2sZ4oVrpFw9nC7KdDMrMFP7H3Cv3XKKnqLYJR1V/1SaJXIkkM9MWG5RJbk7U7rBrK3oppvEgRmRQ/wwsnNwzBmVaVI89o9r2+6UBABEsfT8ekL2mdKJuDqNSfkzKsT3QZ5n7EmtNSswuC2431vVBLACjMTBDumNkfxIPhjApVvbvSFjcr8FzvPVB7T3SUgh4YtI6hNVM2TXVepd7OzSp7VId/Xgghqj1RNjq2q50gmtz72v/RQoKJDJhS2F8l+wIDAQAB"
 }

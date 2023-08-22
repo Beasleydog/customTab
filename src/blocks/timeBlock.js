@@ -38,7 +38,8 @@ export default function TimeBlock(props) {
             alignItems: 'center',
             overflow: "hidden",
             padding: "10px",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            color: window.themeColor,
         }}>
             <ResponsiveText width={props.width} height={props.height}>
                 {time}

@@ -3,6 +3,7 @@ import { getAllSettings, getSettingDefaultInfo } from "./settingFunctions";
 import React, { useEffect, useState, useRef } from "react";
 import updateToLatestSettings from "./updateSettings";
 import blocksMap from "../../blocks/blocksMap";
+import rerenderTab from "./rerenderTab";
 function createNewBlock(kind, props) {
     let newBlock = new Block(kind, props);
     console.log(JSON.stringify(newBlock));
@@ -31,6 +32,7 @@ function useAllBlocks() {
     useEffect(() => {
         function handleBlockChange() {
             setLatestBLocks(getBlocks());
+            console.log("block was changed somehwere so now we gettin latest");
         }
         const bc = new BroadcastChannel('blockChange');
 
@@ -45,18 +47,32 @@ function useAllBlocks() {
 
     return latestBlocks;
 }
+function getSpecificBlock(id) {
+    let allBlocks = getBlocks();
+    let block = allBlocks.filter((block) => {
+        return block.id === id;
+    })[0];
+    if (block) block = realBlockFromJSON(block);
+    return block;
+}
 function useSpecificBlock(id, staySynced) {
-    function stateChange() {
-        tick(u => u + 1);
-    }
     const getBlockToSet = () => {
         let temp = (getBlockById(id) ? realBlockFromJSON(getBlockById(id)) : null);
         if (temp) temp.setStateChangeCallback(stateChange);
+        console.log("getting block to set", temp);
+
         return temp;
     }
 
     const [latestBlock, setLatestBlock] = useState(getBlockToSet());
     const [_, tick] = useState(0);
+
+    function stateChange(newBlock) {
+        tick(u => u + 1);
+        console.log("setting new block", newBlock, "for id", id);
+        setLatestBlock(newBlock);
+    }
+
 
     useEffect(() => {
         if (staySynced === false) return;
@@ -73,6 +89,7 @@ function useSpecificBlock(id, staySynced) {
         };
     }, [id, staySynced]);
 
+    console.log("returning latest block for id ", id, latestBlock);
     return latestBlock;
 }
 
@@ -185,11 +202,16 @@ function Block(kind, props) {
 
     this.delete = function deleteBlock() {
         let blocks = getBlocks();
-        updateBlocks(blocks.filter((x) => {
+        console.log("blocks before", blocks);
+        let updatedBlocks = blocks.filter((x) => {
+            console.log("removing block", x.id, this.id, x.id !== this.id);
             return x.id !== this.id;
-        }));
-        deleteStoredValues(this.id);
+        });
+        console.log("blocked after", updatedBlocks);
+        updateBlocks(updatedBlocks);
+        // deleteStoredValues(this.id);
         triggerBlockUpdate();
+        // rerenderTab();
     }
 
     this.sync = function sync() {
@@ -207,4 +229,4 @@ function Block(kind, props) {
         this.stateChangeCallback = callback;
     }
 }
-export { Block, createNewBlock, realBlockFromJSON, useAllBlocks, useSpecificBlock };
+export { Block, createNewBlock, realBlockFromJSON, useAllBlocks, useSpecificBlock, getSpecificBlock };

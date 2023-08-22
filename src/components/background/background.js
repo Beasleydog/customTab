@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './background.css';
 import { getStoredValue, setStoredValue } from '../../helpers/functions/storage'
 import UseBackground from '../../background/BackgroundAPI';
+import useGlobalState from '../../helpers/functions/globalState';
 // import * as GeoPattern from "geopattern"
 function Background(props) {
     const [background] = UseBackground()
@@ -44,8 +45,9 @@ function Pattern(props) {
     return (
         <>
             {/* GeoPattern colors the patterns with the theme color but also a lot of whiter colors
-            Add a layer of the theme color with 80% opacity overtop to make it look better  */}
-            <div style={{ width: "100vw", height: "100vh", background: props.patternColor + "CC" }} />
+            Add a layer of the theme color with slight opacity overtop to make it look better  */}
+
+            <div style={{ width: "100%", height: "100%", background: props.patternColor, opacity: ".85", position: "relative", zIndex: 2 }} />
 
             <div className="backgroundElement backgroundPattern" style={{
                 background: pattern
@@ -55,8 +57,10 @@ function Pattern(props) {
 }
 function UnsplashPhoto(props) {
     const [preloadPhotoURL, setPreloadPhotoURL] = useState(undefined);
-    const [initialURL, setInitialURL] = useState("");
+    const [initialURL, setInitialURL] = useGlobalState("background.unsplashPhoto");
     useEffect(() => {
+        if (initialURL) return;
+
         async function preloadNextImage() {
             //Preload the next image to show
             let id = await fetch(
@@ -78,6 +82,8 @@ function UnsplashPhoto(props) {
                 className={`backgroundElement ${imageFilter}`}
                 style={{
                     ...(props.darken ? { filter: "brightness(0.8)" } : {}),
+                    width: "100vw",
+                    height: "100vh",
                 }}
                 src={initialURL} />
             <img style={{ display: "none" }} src={preloadPhotoURL} alt="" />

@@ -4,6 +4,8 @@ import BlockSelectInput from "../settingOptions/blockSelectInput/blockSelectInpu
 import TabSelectInput from "../settingOptions/tabSelectInput/tabSelectInput";
 import ColorInput from "../settingOptions/colorInput/colorInput";
 import ListInput from "../settingOptions/listInput/listInput";
+import Background from '../background/background';
+import useDebounce from "../../helpers/functions/useDebounce";
 function SettingsTemplate(props) {
     let [currentPage, setCurrentPage] = useState(Object.keys(props.pages)[0]);
 
@@ -61,14 +63,8 @@ function SettingsTemplate(props) {
                                                                     case "String":
                                                                         //A text input if its a string value
                                                                         return (
-                                                                            <div key={i} className="horizontalSettingLayout">
-                                                                                <label >{setting.humanName}</label>
-                                                                                <input placeholder={setting.placeholder} onChange={
-                                                                                    (e) => {
-                                                                                        props.settingChanged(setting.setting, e.target.value);
-                                                                                    }
-                                                                                } value={setting.value} />
-                                                                            </div>
+                                                                            <StringInput key={i} settingChanged={props.settingChanged} setting={setting} />
+
                                                                         )
                                                                     case "List":
 
@@ -140,7 +136,16 @@ function SettingsTemplate(props) {
                         </div>
                     </div>
                     {props.displayComponent &&
-                        <div className="section" id="blockViewer">{props.displayComponent}</div>
+                        <div className="section" id="blockViewer">
+                            <div className="insetWhiteShadow" style={{ width: "100%", height: "100%", borderRadius: "5px", overflow: 'hidden' }}>
+                                <div style={{ position: "relative", top: 0, left: 0, width: "100%", height: "100%" }}>
+                                    <Background />
+                                </div>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "relative", top: "-100%", left: 0, width: "100%", height: "100%", zIndex: 4 }}>
+                                    {props.displayComponent}
+                                </div>
+                            </div>
+                        </div>
                     }
 
                 </div>
@@ -148,5 +153,23 @@ function SettingsTemplate(props) {
         </>
     )
 }
+function StringInput({ setting, settingChanged }) {
+    const [value, setValue] = useState(setting.value);
+    const debouncedValue = useDebounce(value, 500);
 
+    React.useEffect(() => {
+        console.log("debounced updated");
+        settingChanged(setting.setting, debouncedValue);
+    }, [debouncedValue]);
+
+    return (
+        <div className="horizontalSettingLayout">
+            <label >{setting.humanName}</label>
+            <input placeholder={setting.placeholder} onChange={
+                (e) => {
+                    setValue(e.target.value);
+                }
+            } value={value} />
+        </div>)
+}
 export default SettingsTemplate;

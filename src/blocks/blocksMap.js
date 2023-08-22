@@ -78,42 +78,12 @@ const blocksMap = {
         block: Blocks.GooglePhotosBlock,
         humanName: "Google Photos Block",
         defaultSizes: { width: 200, height: 200 },
+        attributes: {
+            hideContentWhileEdit: true,
+            minimumSizes: { width: 200, height: 200 },
+        },
         settingPages: {
-            albums: {
-                icon: "/assets/pencil.svg",
-                humanName: "Albums",
-                sections: [
-                    {
-                        humanName: "Album URLs",
-                        type: "section",
-                        settings: {
-                            albumUrls: {
-                                default: [],
-                                type: "List",
-                                placeholder: "https://photos.app.goo.gl/...",
-                                itemValidationFunction: function (listItem) {
-                                    let validationRegex = /https:\/\/photos\.app\.goo\.gl\/.*/gm;
-                                    if (validationRegex.test(listItem)) {
-                                        return { valid: true }
-                                    } else {
-                                        return { valid: false, message: "Not a valid Google Photos URL" }
-                                    }
-                                },
-                                itemTitleFunction: async function (listItem) {
 
-                                    const titleRegex = /<title>(.*)<\/title>/;
-                                    let itemTitle = await fetch(listItem);
-                                    itemTitle = await itemTitle.text();
-                                    itemTitle = itemTitle.match(titleRegex)[1];
-                                    return itemTitle;
-                                },
-                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
-                                humanName: "Album URL(s)",
-                            }
-                        }
-                    }
-                ]
-            }
         }
     },
     "remnoteQueueBlock": {
@@ -236,11 +206,39 @@ const blocksMap = {
         block: Blocks.TodoBlock,
         attributes: {
             hideContentWhileEdit: true,
+            minimumSizes: { width: 225, height: 150 },
+
         },
         humanName: "Todo Block",
         defaultSizes: { width: 300, height: 200 },
         lockAspectRatio: true,
-        settingPages: {}
+        settingPages: {
+            display: {
+                icon: "/assets/pencil.svg",
+                humanName: "Display Settings",
+                sections: [
+                    {
+                        humanName: "Theme Coloring",
+                        type: "section",
+                        settings: {
+                            themeColoring: {
+                                default: "back",
+                                values: [{
+                                    value: "Background",
+                                    id: "back"
+                                }, {
+                                    value: "Text",
+                                    id: "text"
+                                }],
+                                isValidValue: function (valueToCheck) { return validCheck(valueToCheck, this) },
+                                type: "Dropdown",
+                                humanName: "Display theme in"
+                            }
+                        }
+                    }
+                ]
+            },
+        }
     }
 }
 

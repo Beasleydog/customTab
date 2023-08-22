@@ -15,7 +15,8 @@ const multipleEntry = require('react-app-rewire-multiple-entry')([
       entry: 'src/newTab/index.js',
       template: 'public/index.html',
       outPath: '/index.html'
-   }
+   },
+
 ]);
 
 const devServerConfig = () => config => {
@@ -28,15 +29,16 @@ const devServerConfig = () => config => {
 const copyPlugin = new CopyPlugin({
    patterns: [
       { from: 'public', to: '' },
-      { from: 'src/background.js', to: '' }
    ]
 })
+
 
 module.exports = {
    webpack: override(
       addWebpackPlugin(
          copyPlugin
       ),
+
       multipleEntry.addMultiEntry,
    ),
    devServer: overrideDevServer(

@@ -2,28 +2,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import Loader from "../components/loader/loader";
 import { ResponsiveText } from "../components/responsiveText/responsiveTextSize";
+import getWeatherData from "../helpers/functions/getWeatherData";
 export default function WeatherBlock(props) {
     const [weatherData, setWeatherData] = useState({ status: "loading" });
-    const [rerender, setRerender] = useState(false);
-
     const temperatureText = useRef(null);
 
     useEffect(() => {
-        chrome.runtime.sendMessage(
-            {
-                type: "blockMessage",
-                data: { blockType: "weatherBlock", request: "getCurrentWeather" },
-            },
-            (response) => {
-                setWeatherData(response);
-            }
-        );
+        (async () => {
+            const data = await getWeatherData();
+            setWeatherData(data);
+        })();
     }, []);
 
 
-    useEffect(() => {
-        setRerender(!rerender);
-    }, [props]);
+
     return (
         <div style={{ width: "100%", height: "100%", padding: "5px", boxSizing: "border-box", cursor: (props.editing ? "" : "pointer") }} onClick={() => { if (!props.editing) window.location.replace("https://weather.com/weather/today") }}>
             <Loader loaded={weatherData.status === "success"}>
@@ -47,11 +39,11 @@ export default function WeatherBlock(props) {
                     <div
                         style={{ width: "40%" }}
                     >
-                        <div style={{ fill: window.themeColor, filter: `drop-shadow(0px 0px 1px ${window.themeColor}`, marginTop: "10px" }} dangerouslySetInnerHTML={{ __html: weatherData.iconSvg }} />
+                        <div style={{ fill: window.themeColor, filter: `drop-shadow(0px 0px 1px ${window.themeColor}` }} dangerouslySetInnerHTML={{ __html: weatherData.iconSvg }} />
                     </div>
                 </div>
                 <div style={{ width: "100%", height: "30%" }}>
-                    <ResponsiveText width={props.width} height={props.height} align="left">
+                    <ResponsiveText width={props.width} height={props.height} align="center">
                         {weatherData.weather}
                     </ResponsiveText>
                 </div>

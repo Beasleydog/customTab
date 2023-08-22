@@ -6,10 +6,9 @@ import Button from "../button/button";
 import { Rnd } from 'react-rnd';
 import { blockKindToComponent } from '../../helpers/functions/blockFunctions';
 import RenderBlocker from '../renderBlocker/renderBlocker';
-import { realBlockFromJSON, useSpecificBlock } from "../../helpers/functions/BlockAPI";
+import { realBlockFromJSON, useSpecificBlock, getSpecificBlock } from "../../helpers/functions/BlockAPI";
 function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete }) {
-    const block = useSpecificBlock(id);
-
+    const block = getSpecificBlock(id, true);
     return (
         <>
             {
@@ -25,9 +24,9 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                             color: window.background.themeColor,
                         }}
 
-                        position={{ x: block.dragProps.x, y: block.dragProps.y }}
-                        size={{ width: block.dragProps.width, height: block.dragProps.height }}
-                        minHeight={50}
+                        default={{ x: block.dragProps.x, y: block.dragProps.y, width: block.dragProps.width, height: block.dragProps.height }}
+                        minHeight={block.blockProps.minimumSizes?.height || 50}
+                        minWidth={block.blockProps.minimumSizes?.width || 50}
 
                         key={id}
                         id={id}
@@ -88,7 +87,7 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                         }
                     </Rnd >
                     :
-                    <></>
+                    <>Block not found 💀 {id}</>
             }
         </>
     )
