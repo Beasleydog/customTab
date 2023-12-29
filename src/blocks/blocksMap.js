@@ -72,7 +72,7 @@ const blocksMap = {
             },
         },
         humanName: "Time Block",
-        lockAspectRatio: true,
+        lockAspectRatio: false,
     },
     'googlePhotosBlock': {
         block: Blocks.GooglePhotosBlock,

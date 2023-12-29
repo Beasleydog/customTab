@@ -64,6 +64,10 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                             topRight: <Handle />,
                             topLeft: <Handle />
                         }}
+
+
+                        resizeGrid={window.background.useGridForDrag && [10, 10]}
+                        dragGrid={window.background.useGridForDrag && [10, 10]}
                     >
                         <RenderBlocker width={block.dragProps.width} height={block.dragProps.height} editing={editing} block={block.blockProps.hoverToLoad || (block.blockProps.hideContentWhileEdit && editing)} humanName={realBlockFromJSON(block).getBlockHumanName()}>
                             {
@@ -87,7 +91,7 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                         }
                     </Rnd >
                     :
-                    <>Block not found 💀 {id}</>
+                    <>Block not found {id}</>
             }
         </>
     )

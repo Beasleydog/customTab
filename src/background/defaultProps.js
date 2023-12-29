@@ -190,6 +190,22 @@ const settingPages = {
                     }
                 }
             },
+            {
+                type: "divider",
+            },
+            {
+                type: "section",
+                humanName: "Dragging",
+                settings: {
+                    useGridForDrag: {
+                        default: true,
+                        isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
+                        type: "Boolean",
+                        humanName: "Snap To Grid"
+
+                    }
+                }
+            },
         ]
     }
 };
