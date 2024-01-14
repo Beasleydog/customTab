@@ -14,6 +14,8 @@ function validCheck(valueToCheck, obj) {
             return typeof (valueToCheck) === "string";
         case "List":
             return typeof (valueToCheck) == "object" && JSON.stringify(valueToCheck)[0] === "[";
+        case "Slider":
+            return typeof (valueToCheck) === "number" && valueToCheck >= obj.limits[0] && valueToCheck <= obj.limits[1];
         default:
             break;
     }

@@ -4,7 +4,6 @@ import { getBlockHumanName, blockKindToComponent, updateBlockSetting } from '../
 import SettingsTemplate from '../settingsTemplate/settingsTemplate';
 import { settingCleanRenderList } from '../../helpers/functions/settingFunctions';
 import blocksMap from '../../blocks/blocksMap';
-import rerenderTab from '../../helpers/functions/rerenderTab';
 import { useSpecificBlock } from '../../helpers/functions/BlockAPI';
 
 function BlockSettings(props) {

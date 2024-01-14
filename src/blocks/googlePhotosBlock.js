@@ -8,6 +8,7 @@ import { useAuthToken, requestAuthToken } from '../helpers/functions/identityAut
 import useHover from '../helpers/functions/useHover';
 import textColorFromBackground from '../helpers/functions/textColorFromBackground';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import UseBackground from '../background/BackgroundAPI';
 export default function GooglePhotosBlock(props) {
     const googlePhotosToken = useAuthToken();
     const selectedAlbums = useStoredValue(`${props.id}.selectedAlbums`, []);
@@ -18,6 +19,10 @@ export default function GooglePhotosBlock(props) {
     const [state, setState] = useState(selectedAlbums.length > 0 ? "photo" : "albums");
     const hoverRef = useRef(null);
     const hovering = useHover(hoverRef);
+
+    const [background] = UseBackground();
+
+
     useEffect(() => {
         (async () => {
             if (googlePhotosToken) setAlbums(await getAllAlbums());
@@ -59,6 +64,7 @@ export default function GooglePhotosBlock(props) {
                 {state === "photo" ?
                     <div ref={hoverRef} style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", ...FULL_SIZE }}>
                         {noPhotos ? <div>No photos in albums 😓</div> : ((selectedPhoto || nextPhoto) && <PhotoDisplay
+                            background={background}
                             photoUrl={nextPhoto}
                             maxHeight={props.height}
                             maxWidth={props.width}
@@ -67,7 +73,7 @@ export default function GooglePhotosBlock(props) {
                         {changeAlbumButton}
                     </div>
                     :
-                    <AlbumSelectGrid selectedAlbums={selectedAlbums} albums={albums} block={props} id={props.id} onDone={() => { setState("photo") }} />
+                    <AlbumSelectGrid background={background} selectedAlbums={selectedAlbums} albums={albums} block={props} id={props.id} onDone={() => { setState("photo") }} />
                 }
             </div>
         }
@@ -87,7 +93,8 @@ function AuthState({ block }) {
         </div>
     )
 }
-function AlbumSelectGrid({ albums, block, id, onDone, selectedAlbums }) {
+function AlbumSelectGrid({ albums, block, id, onDone, selectedAlbums, background }) {
+
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "center", width: `${block.width - 19}px`, height: "25px", paddingBottom: "5px" }}>
@@ -96,8 +103,8 @@ function AlbumSelectGrid({ albums, block, id, onDone, selectedAlbums }) {
                         cursor: (selectedAlbums.length > 0 ? "pointer" : "no-access"),
                         padding: "5px",
                         borderRadius: "3px",
-                        background: `${window.themeColor}BF`,
-                        color: textColorFromBackground(window.themeColor),
+                        background: `${background.themeColor}BF`,
+                        color: textColorFromBackground(background.themeColor),
                         ...(selectedAlbums.length == 0 && { opacity: ".5" }),
                         width: "min-content",
                     }}
@@ -115,14 +122,15 @@ function AlbumSelectGrid({ albums, block, id, onDone, selectedAlbums }) {
                     albums.map((x) => {
                         return <AlbumDisplay key={x.id} blockId={id} album={x} block={block} selected={
                             selectedAlbums.find(selectedAlbum => selectedAlbum.id == x.id)
-                        } />
+                        }
+                            background={background} />
                     })
                 }
             </div>
         </div>
     )
 }
-function AlbumDisplay({ album, blockId, block, selected }) {
+function AlbumDisplay({ album, blockId, block, selected, background }) {
     const [coverUrl, setCoverUrl] = useState();
     const coverPicSize = 150;
 
@@ -158,7 +166,7 @@ function AlbumDisplay({ album, blockId, block, selected }) {
             }}
         >
             <div style={{ width: `${coverPicSize}px`, minHeight: `${coverPicSize}px`, position: "relative" }} onClick={toggleSelection}>
-                {selected && <div style={{ position: "absolute", top: "0", left: "0", width: `${coverPicSize}px`, height: `${coverPicSize}px`, borderRadius: "10px", background: `${window.themeColor}BF` }}>
+                {selected && <div style={{ position: "absolute", top: "0", left: "0", width: `${coverPicSize}px`, height: `${coverPicSize}px`, borderRadius: "10px", background: `${background.themeColor}BF` }}>
                     <img alt="check" src="/assets/check.svg" style={{
                         position: "absolute",
                         top: "50%",
@@ -166,11 +174,11 @@ function AlbumDisplay({ album, blockId, block, selected }) {
                         transform: "translate(-50%, -50%)",
                         width: `${Math.floor(coverPicSize / 3)}px`,
                         height: `${Math.floor(coverPicSize / 3)}px`,
-                        ...(textColorFromBackground(window.themeColor) == "white" && { filter: "invert(1)" })
+                        ...(textColorFromBackground(background.themeColor) == "white" && { filter: "invert(1)" })
                     }}></img>
                 </div>}
                 <div style={{ display: "flex", flexDirection: "column", gap: "5px", width: `${coverPicSize}px` }}>
-                    <LazyLoadImage loading="lazy" style={{ width: `${coverPicSize}px`, height: `${coverPicSize}px`, borderRadius: "10px", background: `${window.themeColor}50`, border: "none", outline: "none" }} src={coverUrl}></LazyLoadImage>
+                    <LazyLoadImage loading="lazy" style={{ width: `${coverPicSize}px`, height: `${coverPicSize}px`, borderRadius: "10px", background: `${background.themeColor}50`, border: "none", outline: "none" }} src={coverUrl}></LazyLoadImage>
                     {album.title}
                 </div>
             </div>

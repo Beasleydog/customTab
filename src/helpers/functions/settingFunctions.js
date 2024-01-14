@@ -76,12 +76,13 @@ function settingCleanRenderList(pages, settings) {
                     cleanSection.settings.push({
                         setting: settingKey,
                         value: settings[settingKey],
-                        valueType: section.settings[settingKey].type,
-                        humanName: section.settings[settingKey].humanName,
-                        values: section.settings[settingKey].values,
-                        placeholder: section.settings[settingKey].placeholder,
-                        itemValidationFunction: section.settings[settingKey].itemValidationFunction,
-                        itemTitleFunction: section.settings[settingKey].itemTitleFunction,
+                        // valueType: section.settings[settingKey].type,
+                        // humanName: section.settings[settingKey].humanName,
+                        // values: section.settings[settingKey].values,
+                        // placeholder: section.settings[settingKey].placeholder,
+                        // itemValidationFunction: section.settings[settingKey].itemValidationFunction,
+                        // itemTitleFunction: section.settings[settingKey].itemTitleFunction,
+                        ...section.settings[settingKey]
                     });
                 });
             }

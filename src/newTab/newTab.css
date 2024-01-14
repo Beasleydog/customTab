@@ -51,7 +51,7 @@
   transition: box-shadow 0.2s;
   color: white;
   /* text-shadow: rgba(0,0,0,10%) 0px 0px 20px; */
-  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 10%));
+  filter: var(--theme-drop-shadow);
   transition: background 0.1s, backdrop-filter 0.1s, border 0.1s;
 }
 .block--glass {

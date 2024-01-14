@@ -1,9 +1,8 @@
 import { getBlocks, updateBlocks, getBlockById, deleteStoredValues } from "./storage";
 import { getAllSettings, getSettingDefaultInfo } from "./settingFunctions";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import updateToLatestSettings from "./updateSettings";
 import blocksMap from "../../blocks/blocksMap";
-import rerenderTab from "./rerenderTab";
 function createNewBlock(kind, props) {
     let newBlock = new Block(kind, props);
     console.log(JSON.stringify(newBlock));
@@ -47,6 +46,9 @@ function useAllBlocks() {
 
     return latestBlocks;
 }
+
+
+
 function getSpecificBlock(id) {
     let allBlocks = getBlocks();
     let block = allBlocks.filter((block) => {
@@ -55,6 +57,7 @@ function getSpecificBlock(id) {
     if (block) block = realBlockFromJSON(block);
     return block;
 }
+
 function useSpecificBlock(id, staySynced) {
     const getBlockToSet = () => {
         let temp = (getBlockById(id) ? realBlockFromJSON(getBlockById(id)) : null);
@@ -211,7 +214,6 @@ function Block(kind, props) {
         updateBlocks(updatedBlocks);
         // deleteStoredValues(this.id);
         triggerBlockUpdate();
-        // rerenderTab();
     }
 
     this.sync = function sync() {

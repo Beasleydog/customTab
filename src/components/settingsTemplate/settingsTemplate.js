@@ -5,10 +5,20 @@ import TabSelectInput from "../settingOptions/tabSelectInput/tabSelectInput";
 import ColorInput from "../settingOptions/colorInput/colorInput";
 import ListInput from "../settingOptions/listInput/listInput";
 import Background from '../background/background';
+import SliderInput from "../settingOptions/sliderInput/sliderInput";
 import useDebounce from "../../helpers/functions/useDebounce";
 function SettingsTemplate(props) {
     let [currentPage, setCurrentPage] = useState(Object.keys(props.pages)[0]);
+    console.log("settings template", props.pages);
 
+    const settingChanged = (setting, value) => {
+        //If the setting has a cssVariable attatched, we must update that too 🤑
+        if (setting.cssVariable) {
+            document.documentElement.style.setProperty(setting.cssVariable, value);
+        }
+
+        props.settingChanged(setting, value);
+    }
 
     return (
         <>
@@ -43,19 +53,21 @@ function SettingsTemplate(props) {
                                             case "section":
                                                 return (
                                                     <div className="settingSection">
-                                                        <div className="sectionHeader">{section.humanName}</div>
+                                                        {section.humanName && <div className="sectionHeader">
+                                                            {section.humanName}
+                                                        </div>}
                                                         <div className="sectionSettings">
                                                             {section.settings.map((setting, i) => {
 
                                                                 //For each stored setting value that the block has, render:
-                                                                switch (setting.valueType) {
+                                                                switch (setting.type) {
                                                                     case "Boolean":
                                                                         //A checkbox if its a boolean value
                                                                         return (
                                                                             <div key={i} className="booleanInput horizontalSettingLayout">
-                                                                                <label >{setting.humanName}</label>
+                                                                                <div class="settingTitle">{setting.humanName}</div>
                                                                                 <input onChange={(e) => {
-                                                                                    props.settingChanged(setting.setting, e.target.checked);
+                                                                                    settingChanged(setting.setting, e.target.checked);
                                                                                 }} type="checkbox" checked={setting.value} />
 
                                                                             </div>
@@ -63,20 +75,20 @@ function SettingsTemplate(props) {
                                                                     case "String":
                                                                         //A text input if its a string value
                                                                         return (
-                                                                            <StringInput key={i} settingChanged={props.settingChanged} setting={setting} />
+                                                                            <StringInput key={i} settingChanged={settingChanged} setting={setting} />
 
                                                                         )
                                                                     case "List":
 
                                                                         //A list where the user can input values if its a list value
-                                                                        return <ListInput itemTitleFunction={setting.itemTitleFunction} itemValidationFunction={setting.itemValidationFunction} placeholder={setting.placeholder} values={setting.value} onChange={(value) => { props.settingChanged(setting.setting, value) }} />
+                                                                        return <ListInput itemTitleFunction={setting.itemTitleFunction} itemValidationFunction={setting.itemValidationFunction} placeholder={setting.placeholder} values={setting.value} onChange={(value) => { settingChanged(setting.setting, value) }} />
                                                                     case "Dropdown":
                                                                         //A dropdown if its a dropdown value
                                                                         return (
                                                                             <div key={i} className="horizontalSettingLayout dropdownInput">
                                                                                 <label>{setting.humanName}</label>
                                                                                 <select defaultValue={setting.value} onChange={(e) => {
-                                                                                    props.settingChanged(setting.setting, e.target.value);
+                                                                                    settingChanged(setting.setting, e.target.value);
                                                                                 }}>
                                                                                     {
                                                                                         setting.values.map((option) => {
@@ -89,10 +101,10 @@ function SettingsTemplate(props) {
                                                                     case "BlockSelect":
                                                                         //Block select component if its a block select value
                                                                         return (
-                                                                            <div key={i} className="verticalSettingLayout">
-                                                                                {setting.humanName}
+                                                                            <div key={i} className="verticalSettingLayout">                                                                                {setting.humanName}
+                                                                                <div class="settingTitle">{setting.humanName}</div>
                                                                                 <BlockSelectInput value={setting.value} values={setting.values} onChange={(value) => {
-                                                                                    props.settingChanged(setting.setting, value);
+                                                                                    settingChanged(setting.setting, value);
                                                                                 }} />
                                                                             </div>
                                                                         )
@@ -100,9 +112,9 @@ function SettingsTemplate(props) {
                                                                         //Tabs component if its a tab select value
                                                                         return (
                                                                             <div key={i} className="verticalSettingLayout tabInput">
-                                                                                {setting.humanName}
+                                                                                <div class="settingTitle">{setting.humanName}</div>
                                                                                 <TabSelectInput value={setting.value} values={setting.values} onChange={(value) => {
-                                                                                    props.settingChanged(setting.setting, value);
+                                                                                    settingChanged(setting.setting, value);
                                                                                 }} />
                                                                             </div>
                                                                         )
@@ -110,10 +122,17 @@ function SettingsTemplate(props) {
                                                                         //Color picker component if its a color select value
                                                                         return (
                                                                             <div key={i} className="verticalSettingLayout">
-                                                                                {setting.humanName}
+                                                                                <div class="settingTitle">{setting.humanName}</div>
                                                                                 <ColorInput value={setting.value} onChange={(value) => {
-                                                                                    props.settingChanged(setting.setting, value);
+                                                                                    settingChanged(setting.setting, value);
                                                                                 }} />
+                                                                            </div>
+                                                                        )
+                                                                    case "Slider":
+                                                                        return (
+                                                                            <div key={i} className="verticalSettingLayout">
+                                                                                <div class="settingTitle">{setting.humanName}</div>
+                                                                                <SliderInput setting={setting} onChange={settingChanged} />
                                                                             </div>
                                                                         )
                                                                     default:

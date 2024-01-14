@@ -75,4 +75,5 @@ export function clearCache() {
 }
 export const CACHED_KEYS = {
     GOOGLE_ALBUMS: "GOOGLE_ALBUMS",
+    WEATHER: "WEATHER",
 }

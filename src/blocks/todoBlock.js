@@ -5,12 +5,13 @@ import { ResponsiveText } from "../components/responsiveText/responsiveTextSize"
 import Button from '../components/button/button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactDOM from 'react-dom';
-
+import UseBackground from '../background/BackgroundAPI';
 const parent = document.createElement("div");
 parent.classList.add("portal-parent");
 document.body.appendChild(parent);
 
 export default function TodoBlock(props) {
+    const [background] = UseBackground()
     const [todos, setTodos] = useState(getStoredValue(`${props.id}.todos`) || []);
 
     function newTodo() {
@@ -72,6 +73,7 @@ export default function TodoBlock(props) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            paddingTop: "1%"
         }} >
             <div style={{
                 height: "87%",
@@ -81,13 +83,14 @@ export default function TodoBlock(props) {
                 paddingTop: "5%",
                 width: "90%",
                 alignItems: "center",
+
             }}>
                 {todos.length === 0 &&
                     <>
                         <div style={{ color: "gray", paddingTop: "5%", width: "80%", height: "50%" }}>
                             <ResponsiveText >😊</ResponsiveText>
                         </div>
-                        <div style={{ color: window.themeColor, width: "50%", height: "10%" }}>
+                        <div style={{ color: background.themeColor, width: "50%", height: "10%" }}>
                             <ResponsiveText >You're all caught up</ResponsiveText>
                         </div>
                     </>
@@ -103,7 +106,7 @@ export default function TodoBlock(props) {
                                     return (
                                         <Draggable key={todo.id} draggableId={String(todo.id)} index={index} style={(_isDragging, draggableStyle) => ({ ...draggableStyle, position: 'static' })}>
                                             {(provided, snapshot) => (
-                                                <PortaledElement buttonSize={deleteButtonSize} provided={provided} snapshot={snapshot} todo={todo} index={index} props={props} updateTodoChecked={updateTodoChecked} updateTodoText={updateTodoText} deleteTodoItem={deleteTodoItem} />
+                                                <PortaledElement background={background} buttonSize={deleteButtonSize} provided={provided} snapshot={snapshot} todo={todo} index={index} props={props} updateTodoChecked={updateTodoChecked} updateTodoText={updateTodoText} deleteTodoItem={deleteTodoItem} />
                                             )}
                                         </Draggable>
                                     )
@@ -115,14 +118,14 @@ export default function TodoBlock(props) {
                     </Droppable>
                 </DragDropContext>
             </div>
-            <div style={{ height: "9%", marginBottom: "6%", display: "flex", alignContent: "center", justifyContent: 'center' }}>
-                <Button onClick={newTodo} type="WHITE_BACK_THEME_BORDER" size={deleteButtonSize} icon="/assets/plus.svg" />
+            <div style={{ height: "13%", paddingBottom: "6%", display: "flex", alignContent: "center", justifyContent: 'center' }}>
+                <Button style={{ height: "9%", paddingBottom: "6%", display: "flex", alignContent: "center", justifyContent: 'center' }} onClick={newTodo} type="WHITE_BACK_THEME_BORDER" size={deleteButtonSize} icon="/assets/plus.svg" />
             </div>
         </div>
     )
 }
 
-function PortaledElement({ provided, snapshot, index, todo, props, updateTodoChecked, updateTodoText, deleteTodoItem, buttonSize }) {
+function PortaledElement({ background, provided, snapshot, index, todo, props, updateTodoChecked, updateTodoText, deleteTodoItem, buttonSize }) {
     const child = <div key={index}
         ref={provided.innerRef}
         {...provided.draggableProps}
@@ -139,7 +142,7 @@ function PortaledElement({ provided, snapshot, index, todo, props, updateTodoChe
             background: "white",
             padding: 5,
             borderRadius: 5,
-            border: `${(2 / 30) * buttonSize}px solid ${window.themeColor}`,
+            border: `${(2 / 30) * buttonSize}px solid ${background.themeColor}`,
         }}>
             <img src="/assets/drag.svg" style={{ width: "17px", transform: "translateX(-5px)", opacity: .8 }} />
             <input onChange={(e) => { updateTodoChecked(e, index) }} type="checkbox" checked={todo.checked}

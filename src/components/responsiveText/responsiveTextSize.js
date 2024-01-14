@@ -12,7 +12,6 @@ export function ResponsiveText(props) {
     const [lastProp, setLastProp] = useState("{}");
     const parent = useRef(null);
 
-
     //TODO: Enabling the following code makes text realtime resize
     //However, this makes the text flicker quite a bit due to the janky nature how we calculate the correct font size
     //Maybe fix this by making it resize on a offscreen element and then copying the font size to the actual element?

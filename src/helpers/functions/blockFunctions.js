@@ -42,28 +42,11 @@ function getSettingOptions(blockName, setting) {
     return getSettingDefaultInfo(blockName, setting).values;
 }
 
-function validCheck(valueToCheck, obj) {
-    switch (obj.type) {
-        case "Boolean":
-            return typeof (valueToCheck) === "boolean";
-        case "Dropdown":
-            return obj.values.filter((x) => { return x.id === valueToCheck }).length > 0;
-        case "TabSelect":
-            return obj.values.filter((x) => { return x.id === valueToCheck }).length > 0;
-        case "ColorSelect":
-            return typeof (valueToCheck) === "string";
-        case "String":
-            return typeof (valueToCheck) === "string";
-        case "List":
-            return typeof (valueToCheck) == "object" && JSON.stringify(valueToCheck)[0] === "[";
-        default:
-            break;
-    }
-}
+
 function getSettingGroup(blockName, setting) {
     return getSettingDefaultInfo(blockName, setting).group;
 }
 function getSettingGroups(blockName) {
     return blocksMap[blockName].settings.settingGroups;
 }
-export { getSettingGroup, validCheck, getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName, getSettingOptions, getSettingGroups };
+export { getSettingGroup, getBlockHumanName, getSettingValueType, blockKindToComponent, updateBlockSetting, getSettingHumanName, getSettingOptions, getSettingGroups };

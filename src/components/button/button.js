@@ -1,8 +1,9 @@
 import React from 'react';
 import "./button.css"
-
+import UseBackground from '../../background/BackgroundAPI';
 function Button(props) {
     let enabled = (props.enabled === undefined ? true : props.enabled);
+    const [background] = UseBackground();
     return (
         <button className={props.type} id="button" onClick={() => { if (!enabled) { return }; if (props.onClick) { props.onClick(); } }}
             style={{
@@ -14,7 +15,7 @@ function Button(props) {
                     opacity: 0.5,
                 }),
                 ...(props.type === "WHITE_BACK_THEME_BORDER" && {
-                    border: `${props.size * (2 / 30)}px solid ${window.themeColor}`,
+                    border: `${props.size * (2 / 30)}px solid ${background.themeColor}`,
                 }),
             }}>
             {props.icon ?

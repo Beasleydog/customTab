@@ -21,24 +21,13 @@ if (FIRST_RUN) {
 window.TAB_ID = Math.round(Math.random() * 1000000);
 window.clearCache = clearCache;
 function NewTab() {
-  const [background, setBackground] = useState(getBackground());
   const [editing, setEditing] = useState(false);
 
   const userBlocks = useAllBlocks();
-  useEffect(() => {
-    console.log("user blocks just changed now its ", userBlocks);
-  }, [userBlocks]);
   const [focusedBlock, setFocusedBlock] = useState(null);
 
-  window.background = background;
-
 
   useEffect(() => {
-    //Ensure the background is set to atleast the default values
-    if (!background) {
-      //Background has never been set before
-    }
-
     //If this is the first run, update storage to make sure we don't run first time code again in future
     if (FIRST_RUN) {
       localStorage.setItem("firstRun", false);
@@ -56,17 +45,13 @@ function NewTab() {
     }
   });
 
-  if (background) {
-    window.themeColor = background.themeColor;
-  }
-
   return (
     <div style={{
       width: "100%", height: "100%", overflow: "hidden",
     }}>
       <FadeIn id="backgroundFade">
         {userBlocks.map((block, i) => {
-          return (<RenderBlock key={i} id={block.id} setFocusedBlock={setFocusedBlock} editing={editing} focused={block.id == focusedBlock} background={background} />)
+          return (<RenderBlock key={i} id={block.id} setFocusedBlock={setFocusedBlock} editing={editing} focused={block.id == focusedBlock} />)
         })}
 
         <div id="addContainer">

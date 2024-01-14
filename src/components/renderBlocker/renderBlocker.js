@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import "./renderBlocker.css"
-
+import UseBackground from '../../background/BackgroundAPI';
 import { ResponsiveText } from '../responsiveText/responsiveTextSize';
 function RenderBlocker(props) {
     const [hovered, setHovered] = useState(false);
+    const [background] = UseBackground();
     return (
         props.block && (!hovered || props.editing)
             ?
             <div onMouseEnter={() => setHovered(true)} className="RenderBlocker" style={{
-                background: `${window.themeColor}20`
+                background: `${background.themeColor}20`
             }}>
                 <div className='blockHumanName'>
 
@@ -16,7 +17,7 @@ function RenderBlocker(props) {
                         {props.humanName}
                     </ResponsiveText>
                 </div>
-                <div className='blockMessage' style={{ color: window.themeColor }}>
+                <div className='blockMessage' style={{ color: background.themeColor }}>
 
                     <ResponsiveText width={props.width} height={props.height}>
                         {props.editing ? "Editing, not rendering..." : "Hover to load..."}

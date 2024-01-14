@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import useInterval from '../helpers/functions/useInterval';
 import { ResponsiveText } from "../components/responsiveText/responsiveTextSize";
+import UseBackground from '../background/BackgroundAPI';
 export default function TimeBlock(props) {
     const [time, setTime] = useState(currentTime());
     const [rerender, setRerender] = useState(false);
-
+    const [background] = UseBackground();
 
     function currentTime() {
         let dateObject = new Date();
@@ -39,7 +40,7 @@ export default function TimeBlock(props) {
             overflow: "hidden",
             padding: "10px",
             boxSizing: "border-box",
-            color: window.themeColor,
+            color: background.themeColor,
         }}>
             <ResponsiveText width={props.width} height={props.height}>
                 {time}

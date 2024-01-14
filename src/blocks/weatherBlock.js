@@ -3,10 +3,11 @@ import React, { useState, useEffect, useRef } from "react";
 import Loader from "../components/loader/loader";
 import { ResponsiveText } from "../components/responsiveText/responsiveTextSize";
 import getWeatherData from "../helpers/functions/getWeatherData";
+import UseBackground from "../background/BackgroundAPI";
 export default function WeatherBlock(props) {
     const [weatherData, setWeatherData] = useState({ status: "loading" });
     const temperatureText = useRef(null);
-
+    const [background] = UseBackground();
     useEffect(() => {
         (async () => {
             const data = await getWeatherData();
@@ -39,7 +40,7 @@ export default function WeatherBlock(props) {
                     <div
                         style={{ width: "40%" }}
                     >
-                        <div style={{ fill: window.themeColor, filter: `drop-shadow(0px 0px 1px ${window.themeColor}` }} dangerouslySetInnerHTML={{ __html: weatherData.iconSvg }} />
+                        <div style={{ fill: background.themeColor, filter: `drop-shadow(0px 0px 1px ${background.themeColor}` }} dangerouslySetInnerHTML={{ __html: weatherData.iconSvg }} />
                     </div>
                 </div>
                 <div style={{ width: "100%", height: "30%" }}>

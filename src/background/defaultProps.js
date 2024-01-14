@@ -2,13 +2,57 @@ import settingValidCheck from "../helpers/functions/settingValidCheck.js"
 import PATTERN_OPTIONS from "./patternOptions.js";
 const rainbowColor = ` background: linear-gradient(90deg,rgba(255, 0, 0, 1) 0%,rgba(255, 154, 0, 1) 10%,rgba(208, 222, 33, 1) 20%,rgba(79, 220, 74, 1) 30%,rgba(63, 218, 216, 1) 40%,rgba(47, 201, 226, 1) 50%,rgba(28, 127, 238, 1) 60%,rgba(95, 21, 242, 1) 70%,rgba(186, 12, 248, 1) 80%,rgba(251, 7, 217, 1) 90%,rgba(255, 0, 0, 1) 100%)`
 
-
+//cssVariable is only supported for background/theme stuff due to the fact that these settings apply to the entire page
 
 
 const settingPages = {
+    theme: {
+        icon: "/assets/paint.svg",
+        humanName: "Theme",
+        sections: [
+
+            {
+                type: "section",
+                settings: {
+                    themeColor: {
+                        default: "#181818",
+                        isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
+                        type: "ColorSelect",
+                        humanName: "Theme Color"
+                    },
+                    themeShadow: {
+                        default: 2,
+                        isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
+                        type: "Slider",
+                        cssVariables: [
+                            {
+                                name: "--theme-box-shadow",
+                                valueText: (value) => {
+                                    return `${value}px ${value}px ${value}px rgba(0,0,0,0.2)`
+                                }
+                            },
+                            {
+                                name: "--theme-drop-shadow",
+                                valueText: (value) => {
+                                    return `drop-shadow(${value}px ${value}px ${value}px rgba(0,0,0,0.2)})`
+                                }
+                            }
+                        ],
+                        humanName: "Theme Shadow",
+                        limits: [0, 10],
+                        valueDisplayText: (value) => {
+                            return `${value}px`;
+                        }
+                    }
+                }
+            },
+
+
+        ]
+    },
     background: {
         icon: "/assets/pencil.svg",
-        humanName: "Background Settings",
+        humanName: "Background",
         sections: [
 
             {
@@ -130,7 +174,7 @@ const settingPages = {
     },
     blocks: {
         icon: "/assets/pencil.svg",
-        humanName: "Block Settings",
+        humanName: "Blocks",
         sections: [
             {
                 humanName: "Block Background",
@@ -170,22 +214,6 @@ const settingPages = {
                         isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
                         type: "ColorSelect",
                         humanName: "Background Color"
-
-                    }
-                }
-            },
-            {
-                type: "divider",
-            },
-            {
-                type: "section",
-                humanName: "Theme",
-                settings: {
-                    themeColor: {
-                        default: "#181818",
-                        isValidValue: function (valueToCheck) { settingValidCheck(valueToCheck, this) },
-                        type: "ColorSelect",
-                        humanName: "Theme Color"
 
                     }
                 }

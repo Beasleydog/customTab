@@ -6,9 +6,11 @@ import Button from "../button/button";
 import { Rnd } from 'react-rnd';
 import { blockKindToComponent } from '../../helpers/functions/blockFunctions';
 import RenderBlocker from '../renderBlocker/renderBlocker';
-import { realBlockFromJSON, useSpecificBlock, getSpecificBlock } from "../../helpers/functions/BlockAPI";
+import { getSpecificBlock, realBlockFromJSON } from "../../helpers/functions/BlockAPI";
+import UseBackground from '../../background/BackgroundAPI';
 function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete }) {
-    const block = getSpecificBlock(id, true);
+    const block = getSpecificBlock(id);
+    const [background] = UseBackground()
     return (
         <>
             {
@@ -18,10 +20,10 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                         bounds="window"
                         onMouseDown={onMouseDown}
 
-                        className={`block ${editing && "block--editing"} ${focusedAndEditing && "block--focused"} ${window.background.blockBackgroundStyle === "glass" && "block--glass"} ${window.background.blockBackgroundStyle === "transparent" && "block--transparent"}`}
+                        className={`block ${editing && "block--editing"} ${focusedAndEditing && "block--focused"} ${background.blockBackgroundStyle === "glass" && "block--glass"} ${background.blockBackgroundStyle === "transparent" && "block--transparent"}`}
                         style={{
-                            ...window.background.blockBackgroundStyle === "color" && { background: window.background.blockBackgroundColor },
-                            color: window.background.themeColor,
+                            ...background.blockBackgroundStyle === "color" && { background: background.blockBackgroundColor },
+                            color: background.themeColor,
                         }}
 
                         default={{ x: block.dragProps.x, y: block.dragProps.y, width: block.dragProps.width, height: block.dragProps.height }}
@@ -66,12 +68,12 @@ function BlockContainer({ id, focusedAndEditing, onMouseDown, editing, onDelete 
                         }}
 
 
-                        resizeGrid={window.background.useGridForDrag && [10, 10]}
-                        dragGrid={window.background.useGridForDrag && [10, 10]}
+                        resizeGrid={background.useGridForDrag && [10, 10]}
+                        dragGrid={background.useGridForDrag && [10, 10]}
                     >
                         <RenderBlocker width={block.dragProps.width} height={block.dragProps.height} editing={editing} block={block.blockProps.hoverToLoad || (block.blockProps.hideContentWhileEdit && editing)} humanName={realBlockFromJSON(block).getBlockHumanName()}>
                             {
-                                blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.height, id: block.id, editing: editing, backgroundTheme: window.background.themeColor, ...block.blockProps })
+                                blockKindToComponent(block.kind, { width: block.dragProps.width, height: block.dragProps.height, id: block.id, editing: editing, backgroundTheme: background.themeColor, ...block.blockProps })
                             }
                         </RenderBlocker>
 

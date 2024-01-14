@@ -3,9 +3,15 @@ import './background.css';
 import { getStoredValue, setStoredValue } from '../../helpers/functions/storage'
 import UseBackground from '../../background/BackgroundAPI';
 import useGlobalState from '../../helpers/functions/globalState';
+import { setCssVariables } from '../../helpers/functions/backgroundFunctions';
 // import * as GeoPattern from "geopattern"
 function Background(props) {
     const [background] = UseBackground()
+
+    useEffect(() => {
+        setCssVariables();
+
+    }, [background]);
 
     const [BackgroundElement, setBackgroundElement] = useState(<div />);
 
@@ -34,11 +40,12 @@ function Background(props) {
     )
 }
 function Pattern(props) {
+    console.log(props);
     const [pattern, setPattern] = useState(window.GeoPattern.generate(
         Math.random() + "",
         {
             ...(props.patternType !== "random" && { generator: props.patternType }),
-            color: props.patternColor
+            color: props.patternColor.slice(0, 7)
         }
     ).toDataUrl());
 

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getStoredValue, setStoredValue } from '../helpers/functions/storage';
 import textColorFromBackground from '../helpers/functions/textColorFromBackground';
+import UseBackground from "../background/BackgroundAPI";
 
 export default function TextAreaBlock(props) {
+    const [background] = UseBackground()
+
     const [text, setText] = useState(getStoredValue(`${props.id}.text`));
     function updateText(e) {
         setText(e.target.value);
@@ -26,12 +29,12 @@ export default function TextAreaBlock(props) {
                 fontSize: "17px",
                 resize: 'none',
                 ...(props.themeColoring == "back" && {
-                    color: textColorFromBackground(window.themeColor),
-                    background: window.themeColor,
+                    color: textColorFromBackground(background.themeColor),
+                    background: background.themeColor,
                 }),
                 ...(props.themeColoring == "text" && {
-                    background: (window.background.blockBackgroundStyle == "color" ? window.background.blockBackgroundColor : textColorFromBackground(window.themeColor)),
-                    color: window.themeColor,
+                    background: (background.blockBackgroundStyle == "color" ? background.blockBackgroundColor : textColorFromBackground(background.themeColor)),
+                    color: background.themeColor,
                 })
 
             }}>

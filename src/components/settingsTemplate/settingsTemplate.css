@@ -22,6 +22,8 @@
 }
 .sectionHeader{
     font-size:21px;
+    text-decoration: underline;
+    text-decoration-color:#2e2e2e2e;
 }
 #settingsSideBar{
     width:30%;
@@ -124,4 +126,8 @@ box-shadow: inset white 0px 0px 18px 8px;
 }
 .settingsContainer{
     padding:10px;
+}
+.settingTitle{
+    font-size:15px;
+    font-weight:300;
 }

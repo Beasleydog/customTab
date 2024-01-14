@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./loader.css";
+import UseBackground from "../../background/BackgroundAPI";
 function Loader(props) {
+    const [background] = UseBackground();
     const [opacity, setOpacity] = useState(0);
     useEffect(() => {
         if (props.loaded) {
@@ -19,7 +21,7 @@ function Loader(props) {
                 </div>
             }
             <div className={`loadContainer ${props.loaded && "loaderHidden"}`} >
-                <div className="lds-ring" style={{ "--loader-color": window.themeColor }}><div></div><div></div><div></div><div></div></div>
+                <div className="lds-ring" style={{ "--loader-color": background.themeColor }}><div></div><div></div><div></div><div></div></div>
             </div>
         </>
     )
